@@ -1,19 +1,48 @@
 package com.dent.dentclinicapp.domain;
 
-import com.dent.dentclinicapp.domain.services.delegate.DentistService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "APPOINTMENTS")
 public class Appointment
 {
-    private final Long id;
-    private final Dentist dentist;
-    private final Patient patient;
-    private final LocalDate localDate;
-    private final int aproxCost;
-    private final DentistService dentistService;
+    @Id
+    @GeneratedValue
+    @NotNull
+    @Column(name = "APPOINTMENT_ID", unique = true)
+    private Long id;
+
+    @NotNull
+    @Column(name = "PATIENT_NAME")
+    private String name;
+
+    @NotNull
+    @Column(name = "PATIENT_SURNAME")
+    private String surname;
+
+    @Column(name = "PESEL")
+    private String pesel;
+
+    @Column(name = "EMAIL_ADRESS")
+    private String email;
+
+    @Column(name = "DATE")
+    private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "DENTIST_ID")
+    private Dentist dentist;
+
+    @ManyToOne
+    @JoinColumn(name = "SERVICE_ID")
+    private Services service;
 }

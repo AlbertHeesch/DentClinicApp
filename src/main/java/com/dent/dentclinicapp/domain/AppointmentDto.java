@@ -1,6 +1,5 @@
 package com.dent.dentclinicapp.domain;
 
-import com.dent.dentclinicapp.domain.services.delegate.DentistService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,10 +9,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AppointmentDto
 {
-    private final Long id;
-    private final Dentist dentist;
-    private final Patient patient;
-    private final LocalDate localDate;
-    private final int aproxCost;
-    private final DentistService dentistService;
+    private Long id;
+    private String name;
+    private String surname;
+    private String pesel;
+    private String email;
+    private LocalDate date;
+    private Dentist dentist;
+    private Services service;
 }

@@ -13,27 +13,26 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "DENTISTS")
-public class Dentist
+@Table(name = "SERVICES")
+public class Services
 {
     @Id
     @GeneratedValue
     @NotNull
-    @Column(name = "DENTIST_ID", unique = true)
+    @Column(name = "SERVICE_ID", unique = true)
     private Long id;
 
-    @Column(name = "NAME")
-    private String name;
+    @NotNull
+    @Column(name = "SERVICE_DESCRIPTION")
+    private String description;
 
-    @Column(name = "SURNAME")
-    private String surname;
-
-    @Column(name = "EXPERIENCE")
-    private Integer experience;
+    @NotNull
+    @Column(name = "COST")
+    private Double cost;
 
     @OneToMany(
             targetEntity = Appointment.class,
-            mappedBy = "dentist",
+            mappedBy = "service",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
