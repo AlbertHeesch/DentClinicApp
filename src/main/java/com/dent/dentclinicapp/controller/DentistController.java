@@ -1,6 +1,7 @@
 package com.dent.dentclinicapp.controller;
 
 import com.dent.dentclinicapp.domain.Dentist;
+import com.dent.dentclinicapp.domain.DentistDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,15 +12,15 @@ import java.util.List;
 public class DentistController
 {
     @GetMapping
-    public List<Dentist> getDentists()
+    public List<DentistDto> getDentists()
     {
         return new ArrayList<>();
     }
 
     @GetMapping(value = "{dentistId}")
-    public Dentist getDentist(@PathVariable Long dentistId)
+    public DentistDto getDentist(@PathVariable Long dentistId)
     {
-        return new Dentist();
+        return new DentistDto();
     }
 
     @DeleteMapping(value = "{dentistId}")
@@ -29,14 +30,14 @@ public class DentistController
     }
 
     @PostMapping
-    public void createDentist(@RequestBody Dentist dentist)
+    public void createDentist(@RequestBody DentistDto dentistDto)
     {
 
     }
 
     @PutMapping
-    public Dentist updateDentist(@RequestBody Dentist dentist)
+    public DentistDto updateDentist(@RequestBody DentistDto dentistDto)
     {
-        return new Dentist();
+        return new DentistDto();
     }
 }

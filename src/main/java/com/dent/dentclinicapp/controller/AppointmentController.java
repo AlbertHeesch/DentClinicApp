@@ -5,9 +5,10 @@ import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
 import com.dent.dentclinicapp.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -15,37 +16,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppointmentController
 {
-    private final AppointmentService appointmentService;
-    private final AppointmentMapper appointmentMapper;
+    private final AppointmentService service;
+    private final AppointmentMapper mapper;
 
     @GetMapping
-    public List<AppointmentDto> getAppointments()
+    public ResponseEntity<List<AppointmentDto>> getAppointments()
     {
-        List<Appointment> appointments = appointmentService.getAllAppointments();
-        return appointmentMapper.mapToAppointmentDtoList(appointments);
+        List<Appointment> appointments = service.getAllAppointments();
+        return ResponseEntity.ok(mapper.mapToAppointmentDtoList(appointments));
     }
 
     @GetMapping(value = "{appointmentId}")
-    public Appointment getAppointment(@PathVariable Long appointmentId)
-    {
-        return new Appointment();
+    public ResponseEntity<AppointmentDto> getAppointment(@PathVariable Long appointmentId) throws ElementNotFoundException {
+        return ResponseEntity.ok(mapper.mapToAppointmentDto(service.getAppointment(appointmentId)));
     }
 
     @DeleteMapping(value = "{appointmentId}")
-    public void deleteAppointment(@PathVariable Long appointmentId)
+    public ResponseEntity<Void> deleteAppointment(@PathVariable Long appointmentId) throws ElementNotFoundException
     {
-
+        service.deleteAppointment(service.getAppointment(appointmentId));
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping
-    public void createAppointment(@RequestBody Appointment appointment)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createAppointment(@RequestBody AppointmentDto appointmentDto)
     {
-
+        Appointment appointment = mapper.mapToAppointment(appointmentDto);
+        service.saveAppointment(appointment);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public Appointment updateAppointment(@RequestBody Appointment appointment)
+    public ResponseEntity<AppointmentDto> updateAppointment(@RequestBody AppointmentDto appointmentDto)
     {
-        return new Appointment();
+        Appointment appointment = mapper.mapToAppointment(appointmentDto);
+        Appointment savedAppointment = service.saveAppointment(appointment);
+        return ResponseEntity.ok(mapper.mapToAppointmentDto(savedAppointment));
     }
 }

@@ -1,6 +1,7 @@
 package com.dent.dentclinicapp.controller;
 
 import com.dent.dentclinicapp.domain.Currency;
+import com.dent.dentclinicapp.domain.CurrencyDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -11,21 +12,21 @@ import java.util.List;
 public class CurrencyController
 {
     @GetMapping
-    public List<Currency> getCurrencies()
+    public List<CurrencyDto> getCurrencies()
     {
         return new ArrayList<>();
     }
 
     @GetMapping(value = "{currencyId}")
-    public Currency getCurrency(@PathVariable Long currencyId)
+    public CurrencyDto getCurrency(@PathVariable Long currencyId)
     {
-        return new Currency();
+        return new CurrencyDto();
     }
 
     @PutMapping
-    public Currency updateCurrency(@RequestBody Currency currency)
+    public CurrencyDto updateCurrency(@RequestBody CurrencyDto currencyDto)
     {
-        return new Currency();
+        return new CurrencyDto();
     }
 
     @DeleteMapping(value = "{currencyId}")
