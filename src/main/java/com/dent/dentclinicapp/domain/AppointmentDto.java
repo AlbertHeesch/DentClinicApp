@@ -2,11 +2,13 @@ package com.dent.dentclinicapp.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
 @AllArgsConstructor
+@Getter
+@Setter
 public class AppointmentDto
 {
     private Long id;
