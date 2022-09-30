@@ -1,7 +1,5 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.domain.Appointment;
-import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.domain.Services;
 import com.dent.dentclinicapp.domain.ServicesDto;
 import org.springframework.stereotype.Service;
