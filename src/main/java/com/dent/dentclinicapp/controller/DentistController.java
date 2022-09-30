@@ -2,42 +2,55 @@ package com.dent.dentclinicapp.controller;
 
 import com.dent.dentclinicapp.domain.Dentist;
 import com.dent.dentclinicapp.domain.DentistDto;
+import com.dent.dentclinicapp.mapper.DentistMapper;
+import com.dent.dentclinicapp.service.DentistService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/dentist")
+@RequiredArgsConstructor
 public class DentistController
 {
+    private final DentistService service;
+    private final DentistMapper mapper;
+
     @GetMapping
-    public List<DentistDto> getDentists()
+    public ResponseEntity<List<DentistDto>> getDentists()
     {
-        return new ArrayList<>();
+        List<Dentist> dentists = service.getAllDentists();
+        return ResponseEntity.ok(mapper.mapToDentistDtoList(dentists));
     }
 
     @GetMapping(value = "{dentistId}")
-    public DentistDto getDentist(@PathVariable Long dentistId)
-    {
-        return new DentistDto();
+    public ResponseEntity<DentistDto> getDentist(@PathVariable Long dentistId) throws ElementNotFoundException {
+        return ResponseEntity.ok(mapper.mapToDentistDto(service.getDentist(dentistId)));
     }
 
     @DeleteMapping(value = "{dentistId}")
-    public void deleteDentist(@PathVariable Long dentistId)
+    public ResponseEntity<Void> deleteDentist(@PathVariable Long dentistId) throws ElementNotFoundException
     {
-
+        service.deleteDentist(service.getDentist(dentistId));
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping
-    public void createDentist(@RequestBody DentistDto dentistDto)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createDentist(@RequestBody DentistDto dentistDto)
     {
-
+        Dentist dentist = mapper.mapToDentist(dentistDto);
+        service.saveDentist(dentist);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public DentistDto updateDentist(@RequestBody DentistDto dentistDto)
+    public ResponseEntity<DentistDto> updateDentist(@RequestBody DentistDto dentistDto)
     {
-        return new DentistDto();
+        Dentist dentist = mapper.mapToDentist(dentistDto);
+        Dentist savedDentist = service.saveDentist(dentist);
+        return ResponseEntity.ok(mapper.mapToDentistDto(savedDentist));
     }
 }
