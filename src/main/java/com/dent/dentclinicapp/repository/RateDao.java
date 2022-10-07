@@ -1,6 +1,6 @@
 package com.dent.dentclinicapp.repository;
 
-import com.dent.dentclinicapp.domain.Currency;
+import com.dent.dentclinicapp.domain.Rate;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,14 +10,16 @@ import java.util.Optional;
 
 @Repository
 @Transactional
-public interface CurrencyDao extends CrudRepository<Currency, Long>
+public interface RateDao extends CrudRepository<Rate, Long>
 {
     @Override
-    List<Currency> findAll();
+    List<Rate> findAll();
+
+    Optional<Rate> findByName(String name);
 
     @Override
-    Optional<Currency> findById(Long id);
+    Optional<Rate> findById(Long id);
 
     @Override
-    Currency save(Currency currency);
+    Rate save(Rate rate);
 }
