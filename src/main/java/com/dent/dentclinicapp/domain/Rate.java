@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "CURRENCIES")
-public class Currency
+@Table(name = "RATES")
+public class Rate
 {
     @Id
     @GeneratedValue
@@ -27,6 +27,6 @@ public class Currency
     private String name;
 
     @NotNull
-    @Column(name = "RATE_TO_PLN")
+    @Column(name = "RATE")
     private Double value;
 }

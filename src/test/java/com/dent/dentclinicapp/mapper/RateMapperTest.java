@@ -1,7 +1,7 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.domain.Currency;
-import com.dent.dentclinicapp.domain.CurrencyDto;
+import com.dent.dentclinicapp.domain.Rate;
+import com.dent.dentclinicapp.domain.RateDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,19 +12,19 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class CurrencyMapperTest {
+class RateMapperTest {
 
     @Autowired
-    private CurrencyMapper mapper;
+    private RateMapper mapper;
 
     @Test
     void mapToCurrency()
     {
         //Given
-        CurrencyDto currencyDto = new CurrencyDto(1L, "currency1", 3.33);
+        RateDto currencyDto = new RateDto(1L, "currency1", 3.33);
 
         //When
-        Currency currency = mapper.mapToCurrency(currencyDto);
+        Rate currency = mapper.mapToRate(currencyDto);
 
         //Then
         assertEquals(1L, currency.getId());
@@ -36,32 +36,32 @@ class CurrencyMapperTest {
     void mapToCurrencyDto()
     {
         //Given
-        Currency currency = new Currency(1L, "currency1", 3.33);
+        Rate currency = new Rate(1L, "currency1", 3.33);
 
         //When
-        CurrencyDto currencyDto = mapper.mapToCurrencyDto(currency);
+        RateDto rateDto = mapper.mapToRateDto(currency);
 
         //Then
-        assertEquals(1L, currencyDto.getId());
-        assertEquals("currency1", currencyDto.getName());
-        assertEquals(3.33, currencyDto.getValue());
+        assertEquals(1L, rateDto.getId());
+        assertEquals("currency1", rateDto.getName());
+        assertEquals(3.33, rateDto.getValue());
     }
 
     @Test
     void mapToCurrencyDtoList()
     {
         //Given
-        Currency currency1 = new Currency(1L, "currency1", 3.33);
-        Currency currency2 = new Currency(2L, "currency2", 4.44);
-        Currency currency3 = new Currency(3L, "currency3", 5.55);
+        Rate currency1 = new Rate(1L, "currency1", 3.33);
+        Rate currency2 = new Rate(2L, "currency2", 4.44);
+        Rate currency3 = new Rate(3L, "currency3", 5.55);
 
-        List<Currency> currencyList = new ArrayList<>();
+        List<Rate> currencyList = new ArrayList<>();
         currencyList.add(currency1);
         currencyList.add(currency2);
         currencyList.add(currency3);
 
         //When
-        List<CurrencyDto> currencyDtoList = mapper.mapToCurrencyDtoList(currencyList);
+        List<RateDto> currencyDtoList = mapper.mapToRateDtoList(currencyList);
 
         //Then
         assertEquals(3, currencyDtoList.size());
