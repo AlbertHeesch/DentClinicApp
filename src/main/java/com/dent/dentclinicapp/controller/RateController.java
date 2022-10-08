@@ -1,10 +1,7 @@
 package com.dent.dentclinicapp.controller;
 
-import com.dent.dentclinicapp.domain.Rate;
 import com.dent.dentclinicapp.domain.RateDto;
 import com.dent.dentclinicapp.facade.RateFacade;
-import com.dent.dentclinicapp.mapper.RateMapper;
-import com.dent.dentclinicapp.service.RateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +21,9 @@ public class RateController
         return ResponseEntity.ok(facade.fetchRates());
     }
 
-    @GetMapping("/USD")
-    public ResponseEntity<RateDto> getUsdRate() throws ElementNotFoundException {
-        return ResponseEntity.ok(facade.fetchUsdRate());
-    }
-
-    @GetMapping("/EUR")
-    public ResponseEntity<RateDto> getEurRate() throws ElementNotFoundException {
-        return ResponseEntity.ok(facade.fetchEurRate());
-    }
-
-    @GetMapping("/TAX")
-    public ResponseEntity<RateDto> getTaxRate() throws ElementNotFoundException {
-        return ResponseEntity.ok(facade.fetchTaxRate());
+    @GetMapping(value = "{rateId}")
+    public ResponseEntity<RateDto> getRate(@PathVariable Long rateId) throws ElementNotFoundException {
+        return ResponseEntity.ok(facade.fetchRate(rateId));
     }
 
     @DeleteMapping(value = "{rateId}")
