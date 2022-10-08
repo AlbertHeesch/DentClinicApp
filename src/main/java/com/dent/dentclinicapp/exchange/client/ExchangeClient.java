@@ -17,11 +17,11 @@ public class ExchangeClient
 
     private final ExchangeConfig exchangeConfig;
 
-    public ExchangeRateDto getPlnToUsdAndEur() {
+    public ExchangeRateDto getRatesToPln() {
         URI url = UriComponentsBuilder.fromHttpUrl(exchangeConfig.getExchangeApiEndpoint() + "/latest")
-                .queryParam("access_key", exchangeConfig.getApiKey())
+                .queryParam("apikey", exchangeConfig.getApiKey())
                 .queryParam("base", "PLN")
-                .queryParam("symbols", "USD,EUR")
+                .queryParam("symbols", "USD,EUR,GBP")
                 .build()
                 .encode()
                 .toUri();

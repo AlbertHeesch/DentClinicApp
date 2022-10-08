@@ -15,8 +15,6 @@ public interface RateDao extends CrudRepository<Rate, Long>
     @Override
     List<Rate> findAll();
 
-    Optional<Rate> findByName(String name);
-
     @Override
     Optional<Rate> findById(Long id);
 

@@ -25,16 +25,8 @@ public class RateFacade
         return mapper.mapToRateDtoList(rates);
     }
 
-    public RateDto fetchUsdRate() throws ElementNotFoundException {
-        return mapper.mapToRateDto(service.getRateByName("USD"));
-    }
-
-    public RateDto fetchEurRate() throws ElementNotFoundException {
-        return mapper.mapToRateDto(service.getRateByName("EUR"));
-    }
-
-    public RateDto fetchTaxRate() throws ElementNotFoundException {
-        return mapper.mapToRateDto(service.getRateByName("TAX"));
+    public RateDto fetchRate(Long id) throws ElementNotFoundException {
+        return mapper.mapToRateDto(service.getRate(id));
     }
 
     public void deleteRate(@PathVariable Long rateId) throws ElementNotFoundException {
