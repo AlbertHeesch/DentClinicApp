@@ -38,8 +38,8 @@ public class RatesUpdateScheduler
             log.error("Failed to process currencies rates update: " + e.getMessage(), e);
         }
     }
-    @Scheduled(fixedDelay = 100000)
-//    @Scheduled(cron = "0 0 0 * * *")
+
+    @Scheduled(cron = "0 0 0 * * *")
     public void updateTax()
     {
         TaxRateDto rateDto = taxClient.getPolandTaxRate();
