@@ -3,6 +3,7 @@ package com.dent.dentclinicapp.controller;
 import com.dent.dentclinicapp.domain.Appointment;
 import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
+import com.dent.dentclinicapp.proxy.AppointmentMailProxy;
 import com.dent.dentclinicapp.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ public class AppointmentController
 {
     private final AppointmentService service;
     private final AppointmentMapper mapper;
+    private final AppointmentMailProxy proxy;
 
     @GetMapping
     public ResponseEntity<List<AppointmentDto>> getAppointments()
@@ -39,10 +41,10 @@ public class AppointmentController
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createAppointment(@RequestBody AppointmentDto appointmentDto)
-    {
+    public ResponseEntity<Void> createAppointment(@RequestBody AppointmentDto appointmentDto) throws ElementNotFoundException {
         Appointment appointment = mapper.mapToAppointment(appointmentDto);
         service.saveAppointment(appointment);
+        proxy.sendAnEmail(appointmentDto);
         return ResponseEntity.ok().build();
     }
 
