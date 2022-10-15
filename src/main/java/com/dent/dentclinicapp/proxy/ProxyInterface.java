@@ -5,5 +5,5 @@ import com.dent.dentclinicapp.domain.AppointmentDto;
 
 public interface ProxyInterface
 {
-    void sendAnEmail(AppointmentDto appointmentDto) throws ElementNotFoundException;
+    void sendAnEmail(final AppointmentDto appointmentDto) throws ElementNotFoundException;
 }
