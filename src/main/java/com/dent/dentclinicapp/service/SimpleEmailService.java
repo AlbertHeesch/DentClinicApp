@@ -2,7 +2,6 @@ package com.dent.dentclinicapp.service;
 
 import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.domain.Mail;
-import com.dent.dentclinicapp.proxy.ProxyInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,6 @@ public class SimpleEmailService
 
     @Autowired
     private MailCreatorService mailCreatorService;
-    private static final String SUBJECT = "Your dentist appointment.";
-
-    public void sendAppointmentEmail(AppointmentDto appointmentDto) {
-        send(new Mail(appointmentDto.getEmail(), SUBJECT), appointmentDto);
-    }
 
     public void send(final Mail mail, final AppointmentDto appointmentDto) {
         log.info("Starting email preparation...");

@@ -3,7 +3,7 @@ package com.dent.dentclinicapp.controller;
 import com.dent.dentclinicapp.domain.Appointment;
 import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
-import com.dent.dentclinicapp.proxy.AppointmentMailProxy;
+import com.dent.dentclinicapp.proxy.ProxyInterface;
 import com.dent.dentclinicapp.service.AppointmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -19,7 +19,7 @@ public class AppointmentController
 {
     private final AppointmentService service;
     private final AppointmentMapper mapper;
-    private final AppointmentMailProxy proxy;
+    private final ProxyInterface proxy;
 
     @GetMapping
     public ResponseEntity<List<AppointmentDto>> getAppointments()
