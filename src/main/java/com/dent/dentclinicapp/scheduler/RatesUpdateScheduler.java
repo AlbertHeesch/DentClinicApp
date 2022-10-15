@@ -1,5 +1,6 @@
 package com.dent.dentclinicapp.scheduler;
 
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.ExchangeRateDto;
 import com.dent.dentclinicapp.domain.Rate;
 import com.dent.dentclinicapp.domain.TaxRateDto;
@@ -21,18 +22,19 @@ public class RatesUpdateScheduler
     private final RateService service;
 
     @Scheduled(cron = "0 0 1 * * *")
-    public void updateUsd()     /*All in one method to save client's request limit*/
+    public void updateUsd() throws ElementNotFoundException     /*All in one method to save client's request limit*/
     {
         ExchangeRateDto rates = exchangeClient.getRatesToPln();
-        Rate eurRate = new Rate(1L, "EUR", rates.getExchangeRates().getEur());
-        Rate usdRate = new Rate(2L, "USD", rates.getExchangeRates().getUsd());
-        Rate gbpRate = new Rate(3L, "GBP", rates.getExchangeRates().getGbp());
+
+        Rate eurRate = service.getRateByName(ExchangeClient.EUR);
+        Rate usdRate = service.getRateByName(ExchangeClient.USD);
+        Rate gbpRate = service.getRateByName(ExchangeClient.GBP);
 
         log.info("Starting currencies rate update preparation...");
         try {
-            service.saveRate(eurRate);
-            service.saveRate(usdRate);
-            service.saveRate(gbpRate);
+            service.saveRate(new Rate(eurRate.getId(), eurRate.getName(), rates.getExchangeRates().getEur()));
+            service.saveRate(new Rate(usdRate.getId(), usdRate.getName(), rates.getExchangeRates().getUsd()));
+            service.saveRate(new Rate(gbpRate.getId(), gbpRate.getName(), rates.getExchangeRates().getGbp()));
             log.info("Currencies rates has been updated successfully!");
         } catch (Exception e) {
             log.error("Failed to process currencies rates update: " + e.getMessage(), e);
@@ -40,13 +42,12 @@ public class RatesUpdateScheduler
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-    public void updateTax()
-    {
+    public void updateTax() throws ElementNotFoundException {
         TaxRateDto rateDto = taxClient.getPolandTaxRate();
-        Rate taxRate = new Rate(4L, "TAX", rateDto.getStandardRateDto().getTaxRate());
+        Rate taxRate = service.getRateByName("TAX");
         log.info("Starting tax rate update preparation...");
         try {
-            service.saveRate(taxRate);
+            service.saveRate(new Rate(taxRate.getId(), taxRate.getName(), rateDto.getStandardRateDto().getTaxRate()));
             log.info("Tax rate has been updated successfully!");
         } catch (Exception e) {
             log.error("Failed to process tax rate update: " + e.getMessage(), e);

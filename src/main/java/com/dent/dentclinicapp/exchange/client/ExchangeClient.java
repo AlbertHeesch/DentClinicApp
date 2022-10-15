@@ -17,11 +17,15 @@ public class ExchangeClient
 
     private final ExchangeConfig exchangeConfig;
 
+    public final static String USD = "USD";
+    public final static String EUR = "EUR";
+    public final static String GBP = "GBP";
+
     public ExchangeRateDto getRatesToPln() {
         URI url = UriComponentsBuilder.fromHttpUrl(exchangeConfig.getExchangeApiEndpoint() + "/latest")
                 .queryParam("apikey", exchangeConfig.getApiKey())
                 .queryParam("base", "PLN")
-                .queryParam("symbols", "USD,EUR,GBP")
+                .queryParam("symbols", USD + "," + EUR + "," + GBP)
                 .build()
                 .encode()
                 .toUri();
