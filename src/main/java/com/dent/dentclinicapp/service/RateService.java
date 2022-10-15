@@ -19,8 +19,12 @@ public class RateService {
         return rateDao.findAll();
     }
 
-    public Rate getRate(final Long id) throws ElementNotFoundException {
+    public Rate getRateById(final Long id) throws ElementNotFoundException {
         return rateDao.findById(id).orElseThrow(ElementNotFoundException::new);
+    }
+
+    public Rate getRateByName(final String name) throws ElementNotFoundException {
+        return rateDao.findRateByName(name).orElseThrow(ElementNotFoundException::new);
     }
 
     public Rate saveRate(final Rate rate)

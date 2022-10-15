@@ -26,11 +26,11 @@ public class RateFacade
     }
 
     public RateDto fetchRate(Long id) throws ElementNotFoundException {
-        return mapper.mapToRateDto(service.getRate(id));
+        return mapper.mapToRateDto(service.getRateById(id));
     }
 
     public void deleteRate(@PathVariable Long rateId) throws ElementNotFoundException {
-        service.deleteRate(service.getRate(rateId));
+        service.deleteRate(service.getRateById(rateId));
     }
 
     public void createRate(@RequestBody RateDto rateDto) {
