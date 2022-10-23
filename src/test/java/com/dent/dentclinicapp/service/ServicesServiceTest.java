@@ -1,5 +1,6 @@
 package com.dent.dentclinicapp.service;
 
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Services;
 import com.dent.dentclinicapp.repository.ServicesDao;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -21,7 +24,22 @@ class ServicesServiceTest {
     private ServicesService service;
 
     @Mock
-    private ServicesDao servicesDao;
+    private ServicesDao repository;
+
+    @Test
+    void shouldFetchEmptyList()
+    {
+        //Given
+        List<Services> emptyServiceList = new ArrayList<>();
+
+        when(repository.findAll()).thenReturn(emptyServiceList);
+
+        //When
+        List<Services> serviceList = service.getAllServices();
+
+        //Then
+        assertEquals(0, serviceList.size());
+    }
 
     @Test
     void getAllServices()
@@ -31,12 +49,9 @@ class ServicesServiceTest {
         Services services2 = new Services(2L, "description2", 2.0, List.of());
         Services services3 = new Services(3L, "description3", 3.0, List.of());
 
-        List<Services> servicesList = new ArrayList<>();
-        servicesList.add(services1);
-        servicesList.add(services2);
-        servicesList.add(services3);
+        List<Services> servicesList = List.of(services1, services2, services3);
 
-        when(servicesDao.findAll()).thenReturn(servicesList);
+        when(repository.findAll()).thenReturn(servicesList);
 
         //When
         List<Services> list = service.getAllServices();
@@ -58,14 +73,45 @@ class ServicesServiceTest {
     }
 
     @Test
-    void getService() {
+    void getService() throws ElementNotFoundException {
+        //Given
+        Services services1 = new Services(1L, "description1", 1.0, List.of());
+
+        when(repository.findById(any(long.class))).thenReturn(Optional.of(services1));
+
+        //When
+        Services foundService = service.getService(1L);
+
+        //Then
+        assertEquals(1L, foundService.getId());
+        assertEquals("description1", foundService.getDescription());
+        assertEquals(1.0, foundService.getCost());
+        assertEquals(0, foundService.getAppointmentList().size());
+    }
+
+    @Test
+    void shouldNotFindService() {
+        //Given
+        when(repository.findById(any(long.class))).thenReturn(Optional.empty());
+
+        //When&Then
+        assertThrows(ElementNotFoundException.class, () -> service.getService(1L));
     }
 
     @Test
     void saveService() {
-    }
+        //Given
+        Services services1 = new Services(1L, "description1", 1.0, List.of());
 
-    @Test
-    void deleteService() {
+        when(repository.save(any(Services.class))).thenReturn(services1);
+
+        //When
+        Services savedService = service.saveService(services1);
+
+        //Then
+        assertEquals(1L, savedService.getId());
+        assertEquals("description1", savedService.getDescription());
+        assertEquals(1.0, savedService.getCost());
+        assertEquals(0, savedService.getAppointmentList().size());
     }
 }
