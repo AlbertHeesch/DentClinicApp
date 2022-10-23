@@ -25,7 +25,7 @@ public class MailCreatorService
         List<String> appointmentDetails = new ArrayList<>();
         appointmentDetails.add(appointmentDto.getDate().toString());
         appointmentDetails.add(appointmentDto.getService().getDescription());
-        appointmentDetails.add("Your specialist: " + appointmentDto.getDentist().getName());
+        appointmentDetails.add("Your specialist: " + appointmentDto.getDentist().getName() + " " + appointmentDto.getDentist().getSurname());
 
         Context context = new Context();
         context.setVariable("patient_name", appointmentDto.getName());
