@@ -1,5 +1,6 @@
 package com.dent.dentclinicapp.mapper;
 
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Services;
 import com.dent.dentclinicapp.domain.ServicesDto;
 import org.junit.jupiter.api.Test;
@@ -18,10 +19,9 @@ class ServicesMapperTest {
     private ServicesMapper mapper;
 
     @Test
-    void mapToServices()
-    {
+    void mapToServices() throws ElementNotFoundException {
         //Given
-        ServicesDto servicesDto1 = new ServicesDto(1L, "description1", 1.0, List.of());
+        ServicesDto servicesDto1 = new ServicesDto(1L, "description1", 1.0);
 
         //When
         Services services1 = mapper.mapToServices(servicesDto1);
@@ -30,7 +30,6 @@ class ServicesMapperTest {
         assertEquals(1L, services1.getId());
         assertEquals("description1", services1.getDescription());
         assertEquals(1.0, services1.getCost());
-        assertEquals(0, services1.getAppointmentList().size());
     }
 
     @Test
@@ -46,7 +45,6 @@ class ServicesMapperTest {
         assertEquals(1L, servicesDto1.getId());
         assertEquals("description1", servicesDto1.getDescription());
         assertEquals(1.0, servicesDto1.getCost());
-        assertEquals(0, servicesDto1.getAppointmentList().size());
     }
 
     @Test
@@ -75,9 +73,6 @@ class ServicesMapperTest {
         assertEquals(1.0, servicesDtoList.get(0).getCost());
         assertEquals(2.0, servicesDtoList.get(1).getCost());
         assertEquals(3.0, servicesDtoList.get(2).getCost());
-        assertEquals(0, servicesDtoList.get(0).getAppointmentList().size());
-        assertEquals(0, servicesDtoList.get(1).getAppointmentList().size());
-        assertEquals(0, servicesDtoList.get(2).getAppointmentList().size());
 
     }
 }

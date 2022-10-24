@@ -1,5 +1,6 @@
 package com.dent.dentclinicapp.mapper;
 
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Dentist;
 import com.dent.dentclinicapp.domain.DentistDto;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,9 @@ class DentistMapperTest {
     private DentistMapper mapper;
 
     @Test
-    void mapToDentist()
-    {
+    void mapToDentist() throws ElementNotFoundException {
         //Given
-        DentistDto dentistDto1 = new DentistDto(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1), List.of());
+        DentistDto dentistDto1 = new DentistDto(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1));
 
         //When
         Dentist dentist1 = mapper.mapToDentist(dentistDto1);
@@ -32,7 +32,6 @@ class DentistMapperTest {
         assertEquals("dentist1Name", dentist1.getName());
         assertEquals("dentist1Surname", dentist1.getSurname());
         assertEquals(LocalDate.of(2022, 1, 1), dentist1.getExperience());
-        assertEquals(0, dentist1.getAppointmentList().size());
     }
 
     @Test
@@ -49,7 +48,6 @@ class DentistMapperTest {
         assertEquals("dentist1Name", dentistDto1.getName());
         assertEquals("dentist1Surname", dentistDto1.getSurname());
         assertEquals(LocalDate.of(2022, 1, 1), dentistDto1.getExperience());
-        assertEquals(0, dentistDto1.getAppointmentList().size());
     }
 
     @Test
@@ -81,8 +79,5 @@ class DentistMapperTest {
         assertEquals(LocalDate.of(2022, 1, 1), dentistDtoList.get(0).getExperience());
         assertEquals(LocalDate.of(2023, 1, 1), dentistDtoList.get(1).getExperience());
         assertEquals(LocalDate.of(2024, 1, 1), dentistDtoList.get(2).getExperience());
-        assertEquals(0, dentistDtoList.get(0).getAppointmentList().size());
-        assertEquals(0, dentistDtoList.get(0).getAppointmentList().size());
-        assertEquals(0, dentistDtoList.get(0).getAppointmentList().size());
     }
 }

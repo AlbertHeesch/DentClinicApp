@@ -17,5 +17,4 @@ public class DentistDto
     private String name;
     private String surname;
     private LocalDate experience;
-    private List<Appointment> appointmentList = new ArrayList<>();
 }

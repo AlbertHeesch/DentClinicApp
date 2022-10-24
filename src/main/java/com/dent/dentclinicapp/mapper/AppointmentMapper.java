@@ -1,17 +1,25 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.domain.Appointment;
-import com.dent.dentclinicapp.domain.AppointmentDto;
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
+import com.dent.dentclinicapp.domain.*;
+import com.dent.dentclinicapp.service.AppointmentService;
+import com.dent.dentclinicapp.service.DentistService;
+import com.dent.dentclinicapp.service.ServicesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AppointmentMapper
 {
-    public Appointment mapToAppointment(final AppointmentDto appointmentDto)
-    {
+    private final DentistService dentistService;
+    private final ServicesService servicesService;
+
+    public Appointment mapToAppointment(final AppointmentDto appointmentDto) throws ElementNotFoundException {
         return new Appointment(
                 appointmentDto.getId(),
                 appointmentDto.getName(),
@@ -19,8 +27,19 @@ public class AppointmentMapper
                 appointmentDto.getPesel(),
                 appointmentDto.getEmail(),
                 appointmentDto.getDate(),
-                appointmentDto.getDentist(),
-                appointmentDto.getService()
+                new Dentist(
+                        appointmentDto.getDentist().getId(),
+                        appointmentDto.getDentist().getName(),
+                        appointmentDto.getDentist().getSurname(),
+                        appointmentDto.getDentist().getExperience(),
+                        dentistService.getDentist(appointmentDto.getDentist().getId()).getAppointmentList()
+                ),
+                new Services(
+                        appointmentDto.getService().getId(),
+                        appointmentDto.getService().getDescription(),
+                        appointmentDto.getService().getCost(),
+                        servicesService.getService(appointmentDto.getService().getId()).getAppointmentList()
+                )
         );
     }
 
@@ -33,8 +52,17 @@ public class AppointmentMapper
                 appointment.getPesel(),
                 appointment.getEmail(),
                 appointment.getDate(),
-                appointment.getDentist(),
-                appointment.getService()
+                new DentistDto(
+                        appointment.getDentist().getId(),
+                        appointment.getDentist().getName(),
+                        appointment.getDentist().getSurname(),
+                        appointment.getDentist().getExperience()
+                ),
+                new ServicesDto(
+                        appointment.getService().getId(),
+                        appointment.getService().getDescription(),
+                        appointment.getService().getCost()
+                )
         );
     }
 

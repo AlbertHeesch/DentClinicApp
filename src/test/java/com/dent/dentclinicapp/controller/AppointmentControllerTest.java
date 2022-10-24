@@ -1,10 +1,7 @@
 package com.dent.dentclinicapp.controller;
 
 import com.dent.dentclinicapp.adapter.LocalDateAdapter;
-import com.dent.dentclinicapp.domain.Appointment;
-import com.dent.dentclinicapp.domain.AppointmentDto;
-import com.dent.dentclinicapp.domain.Dentist;
-import com.dent.dentclinicapp.domain.Services;
+import com.dent.dentclinicapp.domain.*;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
 import com.dent.dentclinicapp.proxy.ProxyInterface;
 import com.dent.dentclinicapp.service.AppointmentService;
@@ -58,14 +55,14 @@ class AppointmentControllerTest {
     private final List<Appointment> appointments = List.of(appointment1 ,appointment2, appointment3);
 
     private final AppointmentDto appointmentDto1 = new AppointmentDto(1L, "Name1", "Surname1", "111", "email1", LocalDate.now(),
-            new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
-            new Services(1L, "Description1", 111.1, List.of()));
+            new DentistDto(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
+            new ServicesDto(1L, "Description1", 111.1));
     private final AppointmentDto appointmentDto2 = new AppointmentDto(2L, "Name2", "Surname2", "222", "email2", LocalDate.now(),
-            new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of()),
-            new Services(2L, "Description2", 222.2, List.of()));
+            new DentistDto(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2)),
+            new ServicesDto(2L, "Description2", 222.2));
     private final AppointmentDto appointmentDto3 = new AppointmentDto(3L, "Name3", "Surname3", "333", "email3", LocalDate.now(),
-            new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of()),
-            new Services(3L, "Description3", 333.3, List.of()));
+            new DentistDto(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3)),
+            new ServicesDto(3L, "Description3", 333.3));
 
     private final List<AppointmentDto> appointmentDtos = List.of(appointmentDto1, appointmentDto2, appointmentDto3);
 
