@@ -41,9 +41,9 @@ class ServicesControllerTest {
 
     private final List<Services> services = List.of(service1, service2, service3);
 
-    private final ServicesDto serviceDto1 = new ServicesDto(1L, "Description1", 111.1, List.of());
-    private final ServicesDto serviceDto2 = new ServicesDto(2L, "Description2", 222.2, List.of());
-    private final ServicesDto serviceDto3 = new ServicesDto(3L, "Description3", 333.3, List.of());
+    private final ServicesDto serviceDto1 = new ServicesDto(1L, "Description1", 111.1);
+    private final ServicesDto serviceDto2 = new ServicesDto(2L, "Description2", 222.2);
+    private final ServicesDto serviceDto3 = new ServicesDto(3L, "Description3", 333.3);
 
     private final List<ServicesDto> servicesDtos = List.of(serviceDto1, serviceDto2, serviceDto3);
 
@@ -77,8 +77,7 @@ class ServicesControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].description", Matchers.is("Description2")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].cost", Matchers.is(333.3)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].appointmentList", Matchers.hasSize(0)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].cost", Matchers.is(333.3)));
     }
 
     @Test
@@ -96,8 +95,7 @@ class ServicesControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Description1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.appointmentList", Matchers.hasSize(0)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)));
     }
 
     @Test
@@ -152,7 +150,6 @@ class ServicesControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Description1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.appointmentList", Matchers.hasSize(0)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)));
     }
 }

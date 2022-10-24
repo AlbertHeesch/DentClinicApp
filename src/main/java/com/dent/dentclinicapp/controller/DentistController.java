@@ -39,16 +39,14 @@ public class DentistController
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createDentist(@RequestBody DentistDto dentistDto)
-    {
+    public ResponseEntity<Void> createDentist(@RequestBody DentistDto dentistDto) throws ElementNotFoundException {
         Dentist dentist = mapper.mapToDentist(dentistDto);
         service.saveDentist(dentist);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<DentistDto> updateDentist(@RequestBody DentistDto dentistDto)
-    {
+    public ResponseEntity<DentistDto> updateDentist(@RequestBody DentistDto dentistDto) throws ElementNotFoundException {
         Dentist dentist = mapper.mapToDentist(dentistDto);
         Dentist savedDentist = service.saveDentist(dentist);
         return ResponseEntity.ok(mapper.mapToDentistDto(savedDentist));

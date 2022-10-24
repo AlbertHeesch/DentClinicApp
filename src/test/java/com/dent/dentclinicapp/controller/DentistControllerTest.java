@@ -44,9 +44,9 @@ class DentistControllerTest {
 
     private final List<Dentist> dentists = List.of(dentist1, dentist2, dentist3);
 
-    private final DentistDto dentistDto1 = new DentistDto(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of());
-    private final DentistDto dentistDto2 = new DentistDto(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of());
-    private final DentistDto dentistDto3 = new DentistDto(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of());
+    private final DentistDto dentistDto1 = new DentistDto(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1));
+    private final DentistDto dentistDto2 = new DentistDto(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2));
+    private final DentistDto dentistDto3 = new DentistDto(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3));
 
     private final List<DentistDto> dentistDtos = List.of(dentistDto1, dentistDto2, dentistDto3);
 
@@ -100,8 +100,7 @@ class DentistControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("DentistName1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.surname", Matchers.is("DentistSurname1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.experience", Matchers.is(LocalDate.of(1997, 1,1).toString())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.appointmentList", Matchers.hasSize(0)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.experience", Matchers.is(LocalDate.of(1997, 1,1).toString())));
     }
 
     @Test
@@ -163,7 +162,6 @@ class DentistControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("DentistName1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.surname", Matchers.is("DentistSurname1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.experience", Matchers.is(LocalDate.of(1997, 1,1).toString())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.appointmentList", Matchers.hasSize(0)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.experience", Matchers.is(LocalDate.of(1997, 1,1).toString())));
     }
 }

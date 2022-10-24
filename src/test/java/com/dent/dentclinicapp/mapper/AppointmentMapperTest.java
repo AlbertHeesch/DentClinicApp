@@ -1,9 +1,7 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.domain.Appointment;
-import com.dent.dentclinicapp.domain.AppointmentDto;
-import com.dent.dentclinicapp.domain.Dentist;
-import com.dent.dentclinicapp.domain.Services;
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
+import com.dent.dentclinicapp.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,11 +19,10 @@ class AppointmentMapperTest {
     private AppointmentMapper mapper;
 
     @Test
-    void mapToAppointment()
-    {
+    void mapToAppointment() throws ElementNotFoundException {
         //Given
-        Dentist dentist1 = new Dentist(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12), List.of());
-        Services services1 = new Services(3L, "description1", 75.0, List.of());
+        DentistDto dentistDto1 = new DentistDto(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12));
+        ServicesDto servicesDto1 = new ServicesDto(3L, "description1", 75.0);
         AppointmentDto appointmentDto = new AppointmentDto(
                 1L,
                 "name1",
@@ -33,8 +30,8 @@ class AppointmentMapperTest {
                 "pesel1",
                 "email1",
                 LocalDate.of(2022, 2, 22),
-                dentist1,
-                services1
+                dentistDto1,
+                servicesDto1
                 );
 
         //When
@@ -52,12 +49,10 @@ class AppointmentMapperTest {
         assertEquals("dentistName", appointment.getDentist().getName());
         assertEquals("dentistSurname", appointment.getDentist().getSurname());
         assertEquals(LocalDate.of(2022, 1, 12), appointment.getDentist().getExperience());
-        assertEquals(0, appointment.getDentist().getAppointmentList().size());
 
         assertEquals(3L, appointment.getService().getId());
         assertEquals("description1", appointment.getService().getDescription());
         assertEquals(75.0, appointment.getService().getCost());
-        assertEquals(0, appointment.getService().getAppointmentList().size());
     }
 
     @Test
@@ -92,12 +87,10 @@ class AppointmentMapperTest {
         assertEquals("dentistName", appointmentDto.getDentist().getName());
         assertEquals("dentistSurname", appointmentDto.getDentist().getSurname());
         assertEquals(LocalDate.of(2022, 1, 12), appointmentDto.getDentist().getExperience());
-        assertEquals(0, appointmentDto.getDentist().getAppointmentList().size());
 
         assertEquals(3L, appointmentDto.getService().getId());
         assertEquals("description1", appointmentDto.getService().getDescription());
         assertEquals(75.0, appointmentDto.getService().getCost());
-        assertEquals(0, appointmentDto.getService().getAppointmentList().size());
     }
 
     @Test
@@ -172,11 +165,9 @@ class AppointmentMapperTest {
         assertEquals("dentistName", appointmentDtoList.get(1).getDentist().getName());
         assertEquals("dentistSurname", appointmentDtoList.get(2).getDentist().getSurname());
         assertEquals(LocalDate.of(2022, 1, 12),appointmentDtoList.get(0).getDentist().getExperience());
-        assertEquals(0, appointmentDtoList.get(1).getDentist().getAppointmentList().size());
 
         assertEquals(3L, appointmentDtoList.get(0).getService().getId());
         assertEquals("description3", appointmentDtoList.get(1).getService().getDescription());
         assertEquals(75.0, appointmentDtoList.get(2).getService().getCost());
-        assertEquals(0, appointmentDtoList.get(0).getService().getAppointmentList().size());
     }
 }

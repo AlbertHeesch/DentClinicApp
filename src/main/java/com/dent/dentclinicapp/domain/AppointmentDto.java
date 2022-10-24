@@ -17,6 +17,6 @@ public class AppointmentDto
     private String pesel;
     private String email;
     private LocalDate date;
-    private Dentist dentist;
-    private Services service;
+    private DentistDto dentist;
+    private ServicesDto service;
 }
