@@ -2,13 +2,11 @@ package com.dent.dentclinicapp.mapper;
 
 import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.*;
-import com.dent.dentclinicapp.service.AppointmentService;
 import com.dent.dentclinicapp.service.DentistService;
 import com.dent.dentclinicapp.service.ServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
