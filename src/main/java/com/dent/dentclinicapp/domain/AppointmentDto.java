@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -16,7 +16,7 @@ public class AppointmentDto
     private String surname;
     private String pesel;
     private String email;
-    private LocalDate date;
+    private LocalDateTime date;
     private DentistDto dentist;
     private ServicesDto service;
 }

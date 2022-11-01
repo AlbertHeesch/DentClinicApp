@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ class AppointmentMapperTest {
                 "surname1",
                 "pesel1",
                 "email1",
-                LocalDate.of(2022, 2, 22),
+                LocalDateTime.of(2022, 2, 22, 2, 2),
                 dentistDto1,
                 servicesDto1
                 );
@@ -43,13 +44,13 @@ class AppointmentMapperTest {
         assertEquals("surname1", appointment.getSurname());
         assertEquals("pesel1", appointment.getPesel());
         assertEquals("email1", appointment.getEmail());
-        assertEquals(LocalDate.of(2022, 2, 22), appointment.getDate());
-
+        assertEquals(LocalDateTime.of(2022, 2, 22, 2, 2), appointment.getDate());
+        /*Dentist*/
         assertEquals(1L, appointment.getDentist().getId());
         assertEquals("dentistName", appointment.getDentist().getName());
         assertEquals("dentistSurname", appointment.getDentist().getSurname());
         assertEquals(LocalDate.of(2022, 1, 12), appointment.getDentist().getExperience());
-
+        /*Service*/
         assertEquals(3L, appointment.getService().getId());
         assertEquals("description1", appointment.getService().getDescription());
         assertEquals(75.0, appointment.getService().getCost());
@@ -67,7 +68,7 @@ class AppointmentMapperTest {
                 "surname1",
                 "pesel1",
                 "email1",
-                LocalDate.of(2022, 2, 22),
+                LocalDateTime.of(2022, 2, 22, 2, 2),
                 dentist1,
                 services1
         );
@@ -81,13 +82,13 @@ class AppointmentMapperTest {
         assertEquals("surname1", appointmentDto.getSurname());
         assertEquals("pesel1", appointmentDto.getPesel());
         assertEquals("email1", appointmentDto.getEmail());
-        assertEquals(LocalDate.of(2022, 2, 22), appointmentDto.getDate());
-
+        assertEquals(LocalDateTime.of(2022, 2, 22, 2, 2), appointmentDto.getDate());
+        /*Dentist*/
         assertEquals(1L, appointmentDto.getDentist().getId());
         assertEquals("dentistName", appointmentDto.getDentist().getName());
         assertEquals("dentistSurname", appointmentDto.getDentist().getSurname());
         assertEquals(LocalDate.of(2022, 1, 12), appointmentDto.getDentist().getExperience());
-
+        /*Service*/
         assertEquals(3L, appointmentDto.getService().getId());
         assertEquals("description1", appointmentDto.getService().getDescription());
         assertEquals(75.0, appointmentDto.getService().getCost());
@@ -105,7 +106,7 @@ class AppointmentMapperTest {
                 "surname1",
                 "pesel1",
                 "email1",
-                LocalDate.of(2022, 2, 22),
+                LocalDateTime.of(2022, 2, 22, 2, 2),
                 dentist1,
                 services1
         );
@@ -116,7 +117,7 @@ class AppointmentMapperTest {
                 "surname2",
                 "pesel2",
                 "email2",
-                LocalDate.of(2023, 2, 22),
+                LocalDateTime.of(2023, 2, 22, 2, 2),
                 dentist1,
                 services1
         );
@@ -127,7 +128,7 @@ class AppointmentMapperTest {
                 "surname3",
                 "pesel3",
                 "email3",
-                LocalDate.of(2024, 2, 22),
+                LocalDateTime.of(2024, 2, 22, 2, 2),
                 dentist1,
                 services1
         );
@@ -157,15 +158,15 @@ class AppointmentMapperTest {
         assertEquals("email1", appointmentDtoList.get(0).getEmail());
         assertEquals("email2", appointmentDtoList.get(1).getEmail());
         assertEquals("email3", appointmentDtoList.get(2).getEmail());
-        assertEquals(LocalDate.of(2022, 2, 22), appointmentDtoList.get(0).getDate());
-        assertEquals(LocalDate.of(2023, 2, 22), appointmentDtoList.get(1).getDate());
-        assertEquals(LocalDate.of(2024, 2, 22), appointmentDtoList.get(2).getDate());
-
+        assertEquals(LocalDateTime.of(2022, 2, 22, 2, 2), appointmentDtoList.get(0).getDate());
+        assertEquals(LocalDateTime.of(2023, 2, 22, 2, 2), appointmentDtoList.get(1).getDate());
+        assertEquals(LocalDateTime.of(2024, 2, 22, 2, 2), appointmentDtoList.get(2).getDate());
+        /*Dentists*/
         assertEquals(1L, appointmentDtoList.get(0).getDentist().getId());
         assertEquals("dentistName", appointmentDtoList.get(1).getDentist().getName());
         assertEquals("dentistSurname", appointmentDtoList.get(2).getDentist().getSurname());
         assertEquals(LocalDate.of(2022, 1, 12),appointmentDtoList.get(0).getDentist().getExperience());
-
+        /*Services*/
         assertEquals(3L, appointmentDtoList.get(0).getService().getId());
         assertEquals("description3", appointmentDtoList.get(1).getService().getDescription());
         assertEquals(75.0, appointmentDtoList.get(2).getService().getCost());
