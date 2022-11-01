@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,13 +48,13 @@ class AppointmentServiceTest {
     @Test
     void getAllAppointments() {
         //Given
-        Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDate.now(),
+        Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 22),
                 new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
                 new Services(1L, "Description1", 111.1, List.of()));
-        Appointment appointment2 =new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDate.now(),
+        Appointment appointment2 =new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 23),
                 new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of()),
                 new Services(2L, "Description2", 222.2, List.of()));
-        Appointment appointment3 =new Appointment(3L, "Name3", "Surname3", "333", "email3", LocalDate.now(),
+        Appointment appointment3 =new Appointment(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 24),
                 new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of()),
                 new Services(3L, "Description3", 333.3, List.of()));
 
@@ -81,9 +82,9 @@ class AppointmentServiceTest {
         assertEquals("email1", appointmentList.get(0).getEmail());
         assertEquals("email2", appointmentList.get(1).getEmail());
         assertEquals("email3", appointmentList.get(2).getEmail());
-        assertEquals(LocalDate.now(), appointmentList.get(0).getDate());
-        assertEquals(LocalDate.now(), appointmentList.get(1).getDate());
-        assertEquals(LocalDate.now(), appointmentList.get(2).getDate());
+        assertEquals(LocalDateTime.of(2022, 2, 2, 2, 22), appointmentList.get(0).getDate());
+        assertEquals(LocalDateTime.of(2022, 2, 2, 2, 23), appointmentList.get(1).getDate());
+        assertEquals(LocalDateTime.of(2022, 2, 2, 2, 24), appointmentList.get(2).getDate());
         /*Dentists*/
         assertEquals(1L, appointmentList.get(0).getDentist().getId());
         assertEquals(2L, appointmentList.get(1).getDentist().getId());
@@ -118,7 +119,7 @@ class AppointmentServiceTest {
     @Test
     void getAppointment() throws ElementNotFoundException {
         //Given
-        Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDate.now(),
+        Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 22),
                 new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
                 new Services(1L, "Description1", 111.1, List.of()));
 
@@ -133,7 +134,7 @@ class AppointmentServiceTest {
         assertEquals("Surname1", foundAppointment.getSurname());
         assertEquals("111", foundAppointment.getPesel());
         assertEquals("email1", foundAppointment.getEmail());
-        assertEquals(LocalDate.now(), foundAppointment.getDate());
+        assertEquals(LocalDateTime.of(2022, 2, 2, 2, 22), foundAppointment.getDate());
         /*Dentist*/
         assertEquals(1L, foundAppointment.getDentist().getId());
         assertEquals("DentistName1", foundAppointment.getDentist().getName());
@@ -159,7 +160,7 @@ class AppointmentServiceTest {
     @Test
     void saveAppointment() {
         //Given
-        Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDate.now(),
+        Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 22),
                 new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
                 new Services(1L, "Description1", 111.1, List.of()));
 
@@ -174,7 +175,7 @@ class AppointmentServiceTest {
         assertEquals("Surname1", savedAppointment.getSurname());
         assertEquals("111", savedAppointment.getPesel());
         assertEquals("email1", savedAppointment.getEmail());
-        assertEquals(LocalDate.now(), savedAppointment.getDate());
+        assertEquals(LocalDateTime.of(2022, 2, 2, 2, 22), savedAppointment.getDate());
         /*Dentist*/
         assertEquals(1L, savedAppointment.getDentist().getId());
         assertEquals("DentistName1", savedAppointment.getDentist().getName());

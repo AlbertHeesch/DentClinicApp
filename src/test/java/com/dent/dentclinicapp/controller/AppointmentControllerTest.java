@@ -1,6 +1,7 @@
 package com.dent.dentclinicapp.controller;
 
 import com.dent.dentclinicapp.adapter.LocalDateAdapter;
+import com.dent.dentclinicapp.adapter.LocalDateTimeAdapter;
 import com.dent.dentclinicapp.domain.*;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
 import com.dent.dentclinicapp.proxy.ProxyInterface;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,25 +44,25 @@ class AppointmentControllerTest {
     @MockBean
     private ProxyInterface proxy;
 
-    private final Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDate.of(2022, 2,2),
+    private final Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2),
                     new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
                     new Services(1L, "Description1", 111.1, List.of()));
-    private final Appointment appointment2 = new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDate.of(2022, 2,2),
+    private final Appointment appointment2 = new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 2),
                     new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of()),
                     new Services(2L, "Description2", 222.2, List.of()));
-    private final Appointment appointment3 = new Appointment(3L, "Name3", "Surname3", "333", "email3", LocalDate.now(),
+    private final Appointment appointment3 = new Appointment(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 2),
                     new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of()),
                     new Services(3L, "Description3", 333.3, List.of()));
 
     private final List<Appointment> appointments = List.of(appointment1 ,appointment2, appointment3);
 
-    private final AppointmentDto appointmentDto1 = new AppointmentDto(1L, "Name1", "Surname1", "111", "email1", LocalDate.now(),
+    private final AppointmentDto appointmentDto1 = new AppointmentDto(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2),
             new DentistDto(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
             new ServicesDto(1L, "Description1", 111.1));
-    private final AppointmentDto appointmentDto2 = new AppointmentDto(2L, "Name2", "Surname2", "222", "email2", LocalDate.now(),
+    private final AppointmentDto appointmentDto2 = new AppointmentDto(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 2),
             new DentistDto(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2)),
             new ServicesDto(2L, "Description2", 222.2));
-    private final AppointmentDto appointmentDto3 = new AppointmentDto(3L, "Name3", "Surname3", "333", "email3", LocalDate.now(),
+    private final AppointmentDto appointmentDto3 = new AppointmentDto(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 2),
             new DentistDto(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3)),
             new ServicesDto(3L, "Description3", 333.3));
 
@@ -99,11 +101,11 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].surname", Matchers.is("Surname3")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].pesel", Matchers.is("111")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].email", Matchers.is("email2")))
-                //Dentist fields
+                /*Dentist*/
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentist.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentist.name", Matchers.is("DentistName2")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentist.surname", Matchers.is("DentistSurname3")))
-                //Service fields
+                /*Service*/
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].service.id", Matchers.is(1)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].service.cost", Matchers.is(222.2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].service.description", Matchers.is("Description3")));
@@ -153,6 +155,7 @@ class AppointmentControllerTest {
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         String jsonContent = gson.toJson(appointmentDto1);
@@ -176,6 +179,7 @@ class AppointmentControllerTest {
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         String jsonContent = gson.toJson(appointmentDto1);
