@@ -23,7 +23,7 @@ public class MailCreatorService
 
     public String buildAppointmentEmail(AppointmentDto appointmentDto) {
         List<String> appointmentDetails = new ArrayList<>();
-        appointmentDetails.add(appointmentDto.getDate().toString());
+        appointmentDetails.add(appointmentDto.getDate().toString().replace("T", " "));
         appointmentDetails.add(appointmentDto.getService().getDescription());
         appointmentDetails.add("Your specialist: " + appointmentDto.getDentist().getName() + " " + appointmentDto.getDentist().getSurname());
 
