@@ -47,8 +47,11 @@ public class DentistController
 
     @PutMapping
     public ResponseEntity<DentistDto> updateDentist(@RequestBody DentistDto dentistDto) throws ElementNotFoundException {
-        Dentist dentist = mapper.mapToDentist(dentistDto);
-        Dentist savedDentist = service.saveDentist(dentist);
-        return ResponseEntity.ok(mapper.mapToDentistDto(savedDentist));
+        Dentist dentistToUpdate = service.getDentist(dentistDto.getId());
+        dentistToUpdate.setName(dentistDto.getName());
+        dentistToUpdate.setSurname(dentistDto.getSurname());
+        dentistToUpdate.setExperience(dentistDto.getExperience());
+        service.saveDentist(dentistToUpdate);
+        return ResponseEntity.ok(dentistDto);
     }
 }

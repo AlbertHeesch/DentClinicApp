@@ -50,8 +50,13 @@ public class AppointmentController
 
     @PutMapping
     public ResponseEntity<AppointmentDto> updateAppointment(@RequestBody AppointmentDto appointmentDto) throws ElementNotFoundException {
-        Appointment appointment = mapper.mapToAppointment(appointmentDto);
-        Appointment savedAppointment = service.saveAppointment(appointment);
-        return ResponseEntity.ok(mapper.mapToAppointmentDto(savedAppointment));
+        Appointment appointmentToUpdate = service.getAppointment(appointmentDto.getId());
+        appointmentToUpdate.setName(appointmentDto.getName());
+        appointmentToUpdate.setSurname(appointmentDto.getSurname());
+        appointmentToUpdate.setPesel(appointmentDto.getPesel());
+        appointmentToUpdate.setEmail(appointmentDto.getEmail());
+        appointmentToUpdate.setDate(appointmentDto.getDate());
+        service.saveAppointment(appointmentToUpdate);
+        return ResponseEntity.ok(appointmentDto);
     }
 }

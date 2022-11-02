@@ -133,9 +133,8 @@ class ServicesControllerTest {
     @Test
     void shouldUpdateService() throws Exception {
         // Given
-        when(mapper.mapToServices(any(ServicesDto.class))).thenReturn(service1);
+        when(service.getService(any(long.class))).thenReturn(service1);
         when(service.saveService(any(Services.class))).thenReturn(service1);
-        when(mapper.mapToServicesDto(any(Services.class))).thenReturn(serviceDto1);
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(serviceDto1);

@@ -47,8 +47,10 @@ public class ServicesController
 
     @PutMapping
     public ResponseEntity<ServicesDto> updateService(@RequestBody ServicesDto servicesDto) throws ElementNotFoundException {
-        Services services = mapper.mapToServices(servicesDto);
-        Services savedServices = service.saveService(services);
-        return ResponseEntity.ok(mapper.mapToServicesDto(savedServices));
+        Services servicesToUpdate = service.getService(servicesDto.getId());
+        servicesToUpdate.setDescription(servicesDto.getDescription());
+        servicesToUpdate.setCost(servicesDto.getCost());
+        service.saveService(servicesToUpdate);
+        return ResponseEntity.ok(servicesDto);
     }
 }
