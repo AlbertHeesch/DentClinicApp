@@ -141,9 +141,8 @@ class DentistControllerTest {
     @Test
     void shouldUpdateDentist() throws Exception {
         // Given
-        when(mapper.mapToDentist(any(DentistDto.class))).thenReturn(dentist1);
+        when(service.getDentist(any(long.class))).thenReturn(dentist1);
         when(service.saveDentist(any(Dentist.class))).thenReturn(dentist1);
-        when(mapper.mapToDentistDto(any(Dentist.class))).thenReturn(dentistDto1);
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()

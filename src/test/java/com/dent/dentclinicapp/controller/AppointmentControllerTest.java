@@ -173,9 +173,8 @@ class AppointmentControllerTest {
     @Test
     void shouldUpdateAppointment() throws Exception {
         // Given
-        when(mapper.mapToAppointment(any(AppointmentDto.class))).thenReturn(appointment1);
+        when(service.getAppointment(any(long.class))).thenReturn(appointment1);
         when(service.saveAppointment(any(Appointment.class))).thenReturn(appointment1);
-        when(mapper.mapToAppointmentDto(any(Appointment.class))).thenReturn(appointmentDto1);
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
