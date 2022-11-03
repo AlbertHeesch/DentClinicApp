@@ -1,6 +1,5 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Dentist;
 import com.dent.dentclinicapp.domain.DentistDto;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,7 @@ class DentistMapperTest {
     private DentistMapper mapper;
 
     @Test
-    void mapToDentist() throws ElementNotFoundException {
+    void mapToDentist() {
         //Given
         DentistDto dentistDto1 = new DentistDto(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1));
 
@@ -38,8 +37,7 @@ class DentistMapperTest {
     void mapToDentistDto()
     {
         //Given
-        Dentist dentist1 = new Dentist(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1), List.of());
-
+        Dentist dentist1 = new Dentist(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1));
         //When
         DentistDto dentistDto1 = mapper.mapToDentistDto(dentist1);
 
@@ -54,9 +52,9 @@ class DentistMapperTest {
     void mapToDentistDtoList()
     {
         //Given
-        Dentist dentist1 = new Dentist(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1), List.of());
-        Dentist dentist2 = new Dentist(2L, "dentist2Name", "dentist2Surname", LocalDate.of(2023, 1, 1), List.of());
-        Dentist dentist3 = new Dentist(3L, "dentist3Name", "dentist3Surname", LocalDate.of(2024, 1, 1), List.of());
+        Dentist dentist1 = new Dentist(1L, "dentist1Name", "dentist1Surname", LocalDate.of(2022, 1, 1));
+        Dentist dentist2 = new Dentist(2L, "dentist2Name", "dentist2Surname", LocalDate.of(2023, 1, 1));
+        Dentist dentist3 = new Dentist(3L, "dentist3Name", "dentist3Surname", LocalDate.of(2024, 1, 1));
 
         List<Dentist> dentistList = new ArrayList<>();
         dentistList.add(dentist1);

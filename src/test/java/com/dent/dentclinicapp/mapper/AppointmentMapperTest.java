@@ -2,9 +2,13 @@ package com.dent.dentclinicapp.mapper;
 
 import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.*;
+import com.dent.dentclinicapp.service.DentistService;
+import com.dent.dentclinicapp.service.ServicesService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,18 +16,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class AppointmentMapperTest {
 
-    @Autowired
+    @InjectMocks
     private AppointmentMapper mapper;
+
+    @Mock
+    private DentistService dentistService;
+
+    @Mock
+    private ServicesService servicesService;
 
     @Test
     void mapToAppointment() throws ElementNotFoundException {
         //Given
-        DentistDto dentistDto1 = new DentistDto(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12));
-        ServicesDto servicesDto1 = new ServicesDto(3L, "description1", 75.0);
+        Dentist dentist1 = new Dentist(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12));
+        Services services1 = new Services(3L, "description1", 75.0);
+
         AppointmentDto appointmentDto = new AppointmentDto(
                 1L,
                 "name1",
@@ -31,9 +44,14 @@ class AppointmentMapperTest {
                 "pesel1",
                 "email1",
                 LocalDateTime.of(2022, 2, 22, 2, 2),
-                dentistDto1,
-                servicesDto1
+                "dentistName",
+                "dentistSurname",
+                "description1",
+                75.0
                 );
+
+        when(dentistService.getDentistByNameAndSurname(any(String.class), any(String.class))).thenReturn(dentist1);
+        when(servicesService.getServiceByDescription(any(String.class))).thenReturn(services1);
 
         //When
         Appointment appointment = mapper.mapToAppointment(appointmentDto);
@@ -57,11 +75,10 @@ class AppointmentMapperTest {
     }
 
     @Test
-    void mapToAppointmentDto()
-    {
+    void mapToAppointmentDto() {
         //Given
-        Dentist dentist1 = new Dentist(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12), List.of());
-        Services services1 = new Services(3L, "description1", 75.0, List.of());
+        Dentist dentist1 = new Dentist(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12));
+        Services services1 = new Services(3L, "description1", 75.0);
         Appointment appointment = new Appointment(
                 1L,
                 "name1",
@@ -84,22 +101,18 @@ class AppointmentMapperTest {
         assertEquals("email1", appointmentDto.getEmail());
         assertEquals(LocalDateTime.of(2022, 2, 22, 2, 2), appointmentDto.getDate());
         /*Dentist*/
-        assertEquals(1L, appointmentDto.getDentist().getId());
-        assertEquals("dentistName", appointmentDto.getDentist().getName());
-        assertEquals("dentistSurname", appointmentDto.getDentist().getSurname());
-        assertEquals(LocalDate.of(2022, 1, 12), appointmentDto.getDentist().getExperience());
+        assertEquals("dentistName", appointmentDto.getDentistName());
+        assertEquals("dentistSurname", appointmentDto.getDentistSurname());
         /*Service*/
-        assertEquals(3L, appointmentDto.getService().getId());
-        assertEquals("description1", appointmentDto.getService().getDescription());
-        assertEquals(75.0, appointmentDto.getService().getCost());
+        assertEquals("description1", appointmentDto.getDescription());
     }
 
     @Test
     void mapToAppointmentDtoList()
     {
         //Given
-        Dentist dentist1 = new Dentist(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12), List.of());
-        Services services1 = new Services(3L, "description3", 75.0, List.of());
+        Dentist dentist1 = new Dentist(1L, "dentistName", "dentistSurname", LocalDate.of(2022, 1, 12));
+        Services services1 = new Services(3L, "description3", 75.0);
         Appointment appointment1 = new Appointment(
                 1L,
                 "name1",
@@ -162,13 +175,9 @@ class AppointmentMapperTest {
         assertEquals(LocalDateTime.of(2023, 2, 22, 2, 2), appointmentDtoList.get(1).getDate());
         assertEquals(LocalDateTime.of(2024, 2, 22, 2, 2), appointmentDtoList.get(2).getDate());
         /*Dentists*/
-        assertEquals(1L, appointmentDtoList.get(0).getDentist().getId());
-        assertEquals("dentistName", appointmentDtoList.get(1).getDentist().getName());
-        assertEquals("dentistSurname", appointmentDtoList.get(2).getDentist().getSurname());
-        assertEquals(LocalDate.of(2022, 1, 12),appointmentDtoList.get(0).getDentist().getExperience());
+        assertEquals("dentistName", appointmentDtoList.get(1).getDentistName());
+        assertEquals("dentistSurname", appointmentDtoList.get(2).getDentistSurname());
         /*Services*/
-        assertEquals(3L, appointmentDtoList.get(0).getService().getId());
-        assertEquals("description3", appointmentDtoList.get(1).getService().getDescription());
-        assertEquals(75.0, appointmentDtoList.get(2).getService().getCost());
+        assertEquals("description3", appointmentDtoList.get(1).getDescription());
     }
 }

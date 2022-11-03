@@ -46,9 +46,9 @@ class DentistServiceTest {
     @Test
     void getAllDentists() {
         //Given
-        Dentist dentist1 = new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of());
-        Dentist dentist2 = new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of());
-        Dentist dentist3 = new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of());
+        Dentist dentist1 = new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1));
+        Dentist dentist2 = new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2));
+        Dentist dentist3 = new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3));
 
         List<Dentist> dentists = List.of(dentist1, dentist2, dentist3);
 
@@ -80,7 +80,7 @@ class DentistServiceTest {
     @Test
     void getDentist() throws ElementNotFoundException {
         //Given
-        Dentist dentist1 = new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of());
+        Dentist dentist1 = new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1));
 
         when(repository.findById(any(long.class))).thenReturn(Optional.of(dentist1));
 
@@ -107,7 +107,7 @@ class DentistServiceTest {
     @Test
     void saveDentist() {
         //Given
-        Dentist dentist1 = new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of());
+        Dentist dentist1 = new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1));
 
         when(repository.save(any(Dentist.class))).thenReturn(dentist1);
 

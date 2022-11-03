@@ -1,6 +1,5 @@
 package com.dent.dentclinicapp.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "SERVICES")
@@ -39,4 +37,10 @@ public class Services
             fetch = FetchType.EAGER
     )
     private List<Appointment> appointmentList = new ArrayList<>();
+
+    public Services(Long id, String description, Double cost) {
+        this.id = id;
+        this.description = description;
+        this.cost = cost;
+    }
 }

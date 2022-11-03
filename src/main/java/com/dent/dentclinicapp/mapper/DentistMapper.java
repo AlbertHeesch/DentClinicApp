@@ -1,9 +1,7 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Dentist;
 import com.dent.dentclinicapp.domain.DentistDto;
-import com.dent.dentclinicapp.service.DentistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +12,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DentistMapper {
 
-    private final DentistService dentistService;
-
-    public Dentist mapToDentist(final DentistDto dentistDto) throws ElementNotFoundException {
+    public Dentist mapToDentist(final DentistDto dentistDto) {
         return new Dentist(
                 dentistDto.getId(),
                 dentistDto.getName(),
                 dentistDto.getSurname(),
-                dentistDto.getExperience(),
-                dentistService.getDentist(dentistDto.getId()).getAppointmentList()
+                dentistDto.getExperience()
         );
     }
 

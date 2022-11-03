@@ -1,6 +1,5 @@
 package com.dent.dentclinicapp.mapper;
 
-import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Services;
 import com.dent.dentclinicapp.domain.ServicesDto;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,7 @@ class ServicesMapperTest {
     private ServicesMapper mapper;
 
     @Test
-    void mapToServices() throws ElementNotFoundException {
+    void mapToServices() {
         //Given
         ServicesDto servicesDto1 = new ServicesDto(1L, "description1", 1.0);
 
@@ -36,7 +35,7 @@ class ServicesMapperTest {
     void mapToServicesDto()
     {
         //Given
-        Services services1 = new Services(1L, "description1", 1.0, List.of());
+        Services services1 = new Services(1L, "description1", 1.0);
 
         //When
         ServicesDto servicesDto1 = mapper.mapToServicesDto(services1);
@@ -51,9 +50,9 @@ class ServicesMapperTest {
     void mapToServicesDtoList()
     {
         //Given
-        Services services1 = new Services(1L, "description1", 1.0, List.of());
-        Services services2 = new Services(2L, "description2", 2.0, List.of());
-        Services services3 = new Services(3L, "description3", 3.0, List.of());
+        Services services1 = new Services(1L, "description1", 1.0);
+        Services services2 = new Services(2L, "description2", 2.0);
+        Services services3 = new Services(3L, "description3", 3.0);
 
         List<Services> servicesList = new ArrayList<>();
         servicesList.add(services1);

@@ -1,6 +1,7 @@
 package com.dent.dentclinicapp.repository;
 
 import com.dent.dentclinicapp.domain.Dentist;
+import com.dent.dentclinicapp.domain.Services;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +21,6 @@ public interface DentistDao extends CrudRepository<Dentist, Long>
 
     @Override
     Dentist save(Dentist dentist);
+
+    Optional<Dentist> findDentistByNameAndSurname(String name, String surname);
 }

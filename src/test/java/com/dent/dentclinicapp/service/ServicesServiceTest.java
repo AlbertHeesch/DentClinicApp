@@ -45,9 +45,9 @@ class ServicesServiceTest {
     void getAllServices()
     {
         //Given
-        Services services1 = new Services(1L, "description1", 1.0, List.of());
-        Services services2 = new Services(2L, "description2", 2.0, List.of());
-        Services services3 = new Services(3L, "description3", 3.0, List.of());
+        Services services1 = new Services(1L, "description1", 1.0);
+        Services services2 = new Services(2L, "description2", 2.0);
+        Services services3 = new Services(3L, "description3", 3.0);
 
         List<Services> servicesList = List.of(services1, services2, services3);
 
@@ -75,7 +75,7 @@ class ServicesServiceTest {
     @Test
     void getService() throws ElementNotFoundException {
         //Given
-        Services services1 = new Services(1L, "description1", 1.0, List.of());
+        Services services1 = new Services(1L, "description1", 1.0);
 
         when(repository.findById(any(long.class))).thenReturn(Optional.of(services1));
 
@@ -101,7 +101,7 @@ class ServicesServiceTest {
     @Test
     void saveService() {
         //Given
-        Services services1 = new Services(1L, "description1", 1.0, List.of());
+        Services services1 = new Services(1L, "description1", 1.0);
 
         when(repository.save(any(Services.class))).thenReturn(services1);
 

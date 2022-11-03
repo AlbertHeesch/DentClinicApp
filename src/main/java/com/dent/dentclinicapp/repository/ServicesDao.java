@@ -19,4 +19,6 @@ public interface ServicesDao extends CrudRepository<Services, Long> {
 
     @Override
     Services save(Services services);
+
+    Optional<Services> findServicesByDescription(String description);
 }

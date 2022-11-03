@@ -25,6 +25,11 @@ public class ServicesService {
         return servicesDao.findById(id).orElseThrow(ElementNotFoundException::new);
     }
 
+    public Services getServiceByDescription(final String description) throws ElementNotFoundException
+    {
+        return servicesDao.findServicesByDescription(description).orElseThrow(ElementNotFoundException::new);
+    }
+
     public Services saveService(final Services services)
     {
         return servicesDao.save(services);
