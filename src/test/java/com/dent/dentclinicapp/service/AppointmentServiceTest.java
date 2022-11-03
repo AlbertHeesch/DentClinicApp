@@ -49,14 +49,14 @@ class AppointmentServiceTest {
     void getAllAppointments() {
         //Given
         Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 22),
-                new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
-                new Services(1L, "Description1", 111.1, List.of()));
+                new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
+                new Services(1L, "Description1", 111.1));
         Appointment appointment2 =new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 23),
-                new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of()),
-                new Services(2L, "Description2", 222.2, List.of()));
+                new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2)),
+                new Services(2L, "Description2", 222.2));
         Appointment appointment3 =new Appointment(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 24),
-                new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of()),
-                new Services(3L, "Description3", 333.3, List.of()));
+                new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3)),
+                new Services(3L, "Description3", 333.3));
 
         List<Appointment> appointments = List.of(appointment1 ,appointment2, appointment3);
 
@@ -120,8 +120,8 @@ class AppointmentServiceTest {
     void getAppointment() throws ElementNotFoundException {
         //Given
         Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 22),
-                new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
-                new Services(1L, "Description1", 111.1, List.of()));
+                new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
+                new Services(1L, "Description1", 111.1));
 
         when(repository.findById(any(long.class))).thenReturn(Optional.of(appointment1));
 
@@ -161,8 +161,8 @@ class AppointmentServiceTest {
     void saveAppointment() {
         //Given
         Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 22),
-                new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
-                new Services(1L, "Description1", 111.1, List.of()));
+                new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
+                new Services(1L, "Description1", 111.1));
 
         when(repository.save(any(Appointment.class))).thenReturn(appointment1);
 

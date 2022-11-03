@@ -18,6 +18,9 @@ public class AppointmentMapper
     private final ServicesService servicesService;
 
     public Appointment mapToAppointment(final AppointmentDto appointmentDto) throws ElementNotFoundException {
+        Dentist dentist = dentistService.getDentistByNameAndSurname(appointmentDto.getDentistName(), appointmentDto.getDentistSurname());
+        Services service = servicesService.getServiceByDescription(appointmentDto.getDescription());
+
         return new Appointment(
                 appointmentDto.getId(),
                 appointmentDto.getName(),
@@ -26,17 +29,15 @@ public class AppointmentMapper
                 appointmentDto.getEmail(),
                 appointmentDto.getDate(),
                 new Dentist(
-                        appointmentDto.getDentist().getId(),
-                        appointmentDto.getDentist().getName(),
-                        appointmentDto.getDentist().getSurname(),
-                        appointmentDto.getDentist().getExperience(),
-                        dentistService.getDentist(appointmentDto.getDentist().getId()).getAppointmentList()
+                        dentist.getId(),
+                        dentist.getName(),
+                        dentist.getSurname(),
+                        dentist.getExperience()
                 ),
                 new Services(
-                        appointmentDto.getService().getId(),
-                        appointmentDto.getService().getDescription(),
-                        appointmentDto.getService().getCost(),
-                        servicesService.getService(appointmentDto.getService().getId()).getAppointmentList()
+                        service.getId(),
+                        service.getDescription(),
+                        service.getCost()
                 )
         );
     }
@@ -50,17 +51,10 @@ public class AppointmentMapper
                 appointment.getPesel(),
                 appointment.getEmail(),
                 appointment.getDate(),
-                new DentistDto(
-                        appointment.getDentist().getId(),
-                        appointment.getDentist().getName(),
-                        appointment.getDentist().getSurname(),
-                        appointment.getDentist().getExperience()
-                ),
-                new ServicesDto(
-                        appointment.getService().getId(),
-                        appointment.getService().getDescription(),
-                        appointment.getService().getCost()
-                )
+                appointment.getDentist().getName(),
+                appointment.getDentist().getSurname(),
+                appointment.getService().getDescription(),
+                appointment.getService().getCost()
         );
     }
 

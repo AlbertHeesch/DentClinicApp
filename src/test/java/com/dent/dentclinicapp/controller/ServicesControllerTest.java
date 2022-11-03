@@ -35,9 +35,9 @@ class ServicesControllerTest {
     @MockBean
     private ServicesMapper mapper;
 
-    private final Services service1 = new Services(1L, "Description1", 111.1, List.of());
-    private final Services service2 = new Services(2L, "Description2", 222.2, List.of());
-    private final Services service3 = new Services(3L, "Description3", 333.3, List.of());
+    private final Services service1 = new Services(1L, "Description1", 111.1);
+    private final Services service2 = new Services(2L, "Description2", 222.2);
+    private final Services service3 = new Services(3L, "Description3", 333.3);
 
     private final List<Services> services = List.of(service1, service2, service3);
 
@@ -76,7 +76,13 @@ class ServicesControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.is(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description", Matchers.is("Description1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].description", Matchers.is("Description2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].description", Matchers.is("Description3")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].cost", Matchers.is(111.1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].cost", Matchers.is(222.2)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].cost", Matchers.is(333.3)));
     }
 

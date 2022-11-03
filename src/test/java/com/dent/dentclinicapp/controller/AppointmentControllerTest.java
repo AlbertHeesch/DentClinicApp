@@ -45,26 +45,23 @@ class AppointmentControllerTest {
     private ProxyInterface proxy;
 
     private final Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2),
-                    new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1), List.of()),
-                    new Services(1L, "Description1", 111.1, List.of()));
+                    new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
+                    new Services(1L, "Description1", 111.1));
     private final Appointment appointment2 = new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 2),
-                    new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2), List.of()),
-                    new Services(2L, "Description2", 222.2, List.of()));
+                    new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2)),
+                    new Services(2L, "Description2", 222.2));
     private final Appointment appointment3 = new Appointment(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 2),
-                    new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3), List.of()),
-                    new Services(3L, "Description3", 333.3, List.of()));
+                    new Dentist(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3)),
+                    new Services(3L, "Description3", 333.3));
 
     private final List<Appointment> appointments = List.of(appointment1 ,appointment2, appointment3);
 
     private final AppointmentDto appointmentDto1 = new AppointmentDto(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2),
-            new DentistDto(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
-            new ServicesDto(1L, "Description1", 111.1));
+            "DentistName1", "DentistSurname1", "Description1", 111.1);
     private final AppointmentDto appointmentDto2 = new AppointmentDto(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 2),
-            new DentistDto(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2)),
-            new ServicesDto(2L, "Description2", 222.2));
+            "DentistName2", "DentistSurname2", "Description2", 222.2);
     private final AppointmentDto appointmentDto3 = new AppointmentDto(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 2),
-            new DentistDto(3L, "DentistName3", "DentistSurname3", LocalDate.of(1999, 3,3)),
-            new ServicesDto(3L, "Description3", 333.3));
+            "DentistName3", "DentistSurname3", "Description3", 333.3);
 
     private final List<AppointmentDto> appointmentDtos = List.of(appointmentDto1, appointmentDto2, appointmentDto3);
 
@@ -97,18 +94,31 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(200))
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(3)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.is(3)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is("Name1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.is("Name2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name", Matchers.is("Name3")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].surname", Matchers.is("Surname1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].surname", Matchers.is("Surname2")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].surname", Matchers.is("Surname3")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].pesel", Matchers.is("111")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].pesel", Matchers.is("222")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].pesel", Matchers.is("333")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].email", Matchers.is("email1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].email", Matchers.is("email2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].email", Matchers.is("email3")))
                 /*Dentist*/
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentist.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentist.name", Matchers.is("DentistName2")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentist.surname", Matchers.is("DentistSurname3")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentistName", Matchers.is("DentistName1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentistName", Matchers.is("DentistName2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentistName", Matchers.is("DentistName3")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentistSurname", Matchers.is("DentistSurname1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentistSurname", Matchers.is("DentistSurname2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentistSurname", Matchers.is("DentistSurname3")))
                 /*Service*/
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].service.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].service.cost", Matchers.is(222.2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].service.description", Matchers.is("Description3")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description", Matchers.is("Description1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].description", Matchers.is("Description2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].description", Matchers.is("Description3")));
     }
 
     @Test
@@ -128,7 +138,12 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Name1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.surname", Matchers.is("Surname1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pesel", Matchers.is("111")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("email1")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("email1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.date", Matchers.is("2022-02-02T02:02:00")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistName", Matchers.is("DentistName1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistSurname", Matchers.is("DentistSurname1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Description1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)));
     }
 
     @Test
@@ -195,6 +210,11 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.is("Name1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.surname", Matchers.is("Surname1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pesel", Matchers.is("111")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("email1")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("email1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.date", Matchers.is("2022-02-02T02:02:00")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistName", Matchers.is("DentistName1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistSurname", Matchers.is("DentistSurname1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Description1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)));
     }
 }

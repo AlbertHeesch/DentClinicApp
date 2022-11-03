@@ -25,6 +25,11 @@ public class DentistService {
         return dentistDao.findById(id).orElseThrow(ElementNotFoundException::new);
     }
 
+    public Dentist getDentistByNameAndSurname(final String name, final String surname) throws ElementNotFoundException
+    {
+        return dentistDao.findDentistByNameAndSurname(name, surname).orElseThrow(ElementNotFoundException::new);
+    }
+
     public Dentist saveDentist(final Dentist dentist)
     {
         return dentistDao.save(dentist);
