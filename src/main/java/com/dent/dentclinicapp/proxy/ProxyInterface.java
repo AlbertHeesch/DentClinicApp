@@ -1,9 +1,9 @@
 package com.dent.dentclinicapp.proxy;
 
 import com.dent.dentclinicapp.controller.ElementNotFoundException;
-import com.dent.dentclinicapp.domain.AppointmentDto;
+import com.dent.dentclinicapp.domain.Appointment;
 
 public interface ProxyInterface
 {
-    void sendAnEmail(final AppointmentDto appointmentDto) throws ElementNotFoundException;
+    void sendAnEmail(final Appointment appointment) throws ElementNotFoundException;
 }

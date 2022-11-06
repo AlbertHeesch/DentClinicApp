@@ -2,9 +2,13 @@ package com.dent.dentclinicapp.controller;
 
 import com.dent.dentclinicapp.domain.Appointment;
 import com.dent.dentclinicapp.domain.AppointmentDto;
+import com.dent.dentclinicapp.domain.Dentist;
+import com.dent.dentclinicapp.domain.Services;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
 import com.dent.dentclinicapp.proxy.ProxyInterface;
 import com.dent.dentclinicapp.service.AppointmentService;
+import com.dent.dentclinicapp.service.DentistService;
+import com.dent.dentclinicapp.service.ServicesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,46 +21,53 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppointmentController
 {
-    private final AppointmentService service;
+    private final AppointmentService appointmentService;
+    private final DentistService dentistService;
+    private final ServicesService servicesService;
     private final AppointmentMapper mapper;
     private final ProxyInterface proxy;
 
     @GetMapping
     public ResponseEntity<List<AppointmentDto>> getAppointments()
     {
-        List<Appointment> appointments = service.getAllAppointments();
+        List<Appointment> appointments = appointmentService.getAllAppointments();
         return ResponseEntity.ok(mapper.mapToAppointmentDtoList(appointments));
     }
 
     @GetMapping(value = "{appointmentId}")
     public ResponseEntity<AppointmentDto> getAppointment(@PathVariable Long appointmentId) throws ElementNotFoundException {
-        return ResponseEntity.ok(mapper.mapToAppointmentDto(service.getAppointment(appointmentId)));
+        return ResponseEntity.ok(mapper.mapToAppointmentDto(appointmentService.getAppointment(appointmentId)));
     }
 
     @DeleteMapping(value = "{appointmentId}")
     public ResponseEntity<Void> deleteAppointment(@PathVariable Long appointmentId) throws ElementNotFoundException
     {
-        service.deleteAppointment(service.getAppointment(appointmentId));
+        appointmentService.deleteAppointment(appointmentService.getAppointment(appointmentId));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createAppointment(@RequestBody AppointmentDto appointmentDto) throws ElementNotFoundException {
         Appointment appointment = mapper.mapToAppointment(appointmentDto);
-        service.saveAppointment(appointment);
-        proxy.sendAnEmail(appointmentDto);
+        appointmentService.saveAppointment(appointment);
+        proxy.sendAnEmail(appointment);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
     public ResponseEntity<AppointmentDto> updateAppointment(@RequestBody AppointmentDto appointmentDto) throws ElementNotFoundException {
-        Appointment appointmentToUpdate = service.getAppointment(appointmentDto.getId());
+        Appointment appointmentToUpdate = appointmentService.getAppointment(appointmentDto.getId());
+        Dentist dentist = dentistService.getDentist(appointmentDto.getDentistId());
+        Services service = servicesService.getService(appointmentDto.getServiceId());
+
         appointmentToUpdate.setName(appointmentDto.getName());
         appointmentToUpdate.setSurname(appointmentDto.getSurname());
         appointmentToUpdate.setPesel(appointmentDto.getPesel());
         appointmentToUpdate.setEmail(appointmentDto.getEmail());
         appointmentToUpdate.setDate(appointmentDto.getDate());
-        service.saveAppointment(appointmentToUpdate);
+        appointmentToUpdate.setDentist(dentist);
+        appointmentToUpdate.setService(service);
+        appointmentService.saveAppointment(appointmentToUpdate);
         return ResponseEntity.ok(appointmentDto);
     }
 }

@@ -1,7 +1,7 @@
 package com.dent.dentclinicapp.proxy;
 
 import com.dent.dentclinicapp.controller.ElementNotFoundException;
-import com.dent.dentclinicapp.domain.AppointmentDto;
+import com.dent.dentclinicapp.domain.Appointment;
 import com.dent.dentclinicapp.service.AppointmentService;
 import com.dent.dentclinicapp.service.SimpleEmailService;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +20,13 @@ public class AppointmentMailProxy implements ProxyInterface
     private ProxyInterface proxyInterface;
 
     @Override
-    public void sendAnEmail(AppointmentDto appointmentDto) throws ElementNotFoundException {
+    public void sendAnEmail(Appointment appointment) throws ElementNotFoundException {
         if(proxyInterface == null)
         { proxyInterface = new EmailSend(service); }
         log.info("Starting appointment creation check in database...");
-        if(Optional.ofNullable(appointmentService.getAppointment(appointmentDto.getId())).isPresent()) {
+        if(Optional.ofNullable(appointmentService.getAppointment(appointment.getId())).isPresent()) {
             log.info("Check completed...");
-            proxyInterface.sendAnEmail(appointmentDto);
+            proxyInterface.sendAnEmail(appointment);
         } else {
             log.info("Ops.. Theres no such appointment. Check database.");
         }

@@ -6,6 +6,8 @@ import com.dent.dentclinicapp.domain.*;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
 import com.dent.dentclinicapp.proxy.ProxyInterface;
 import com.dent.dentclinicapp.service.AppointmentService;
+import com.dent.dentclinicapp.service.DentistService;
+import com.dent.dentclinicapp.service.ServicesService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.hamcrest.Matchers;
@@ -36,7 +38,13 @@ class AppointmentControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private AppointmentService service;
+    private AppointmentService appointmentService;
+
+    @MockBean
+    private DentistService dentistService;
+
+    @MockBean
+    private ServicesService servicesService;
 
     @MockBean
     private AppointmentMapper mapper;
@@ -44,9 +52,9 @@ class AppointmentControllerTest {
     @MockBean
     private ProxyInterface proxy;
 
-    private final Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2),
-                    new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1)),
-                    new Services(1L, "Description1", 111.1));
+    private final Dentist dentist1 =  new Dentist(1L, "DentistName1", "DentistSurname1", LocalDate.of(1997, 1,1));
+    private final Services service1 = new Services(1L, "Description1", 111.1);
+    private final Appointment appointment1 = new Appointment(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2), dentist1, service1);
     private final Appointment appointment2 = new Appointment(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 2),
                     new Dentist(2L, "DentistName2", "DentistSurname2", LocalDate.of(1998, 2,2)),
                     new Services(2L, "Description2", 222.2));
@@ -57,11 +65,11 @@ class AppointmentControllerTest {
     private final List<Appointment> appointments = List.of(appointment1 ,appointment2, appointment3);
 
     private final AppointmentDto appointmentDto1 = new AppointmentDto(1L, "Name1", "Surname1", "111", "email1", LocalDateTime.of(2022, 2, 2, 2, 2),
-            "DentistName1", "DentistSurname1", "Description1", 111.1);
+            1L, 1L);
     private final AppointmentDto appointmentDto2 = new AppointmentDto(2L, "Name2", "Surname2", "222", "email2", LocalDateTime.of(2022, 2, 2, 2, 2),
-            "DentistName2", "DentistSurname2", "Description2", 222.2);
+            2L, 2L);
     private final AppointmentDto appointmentDto3 = new AppointmentDto(3L, "Name3", "Surname3", "333", "email3", LocalDateTime.of(2022, 2, 2, 2, 2),
-            "DentistName3", "DentistSurname3", "Description3", 333.3);
+            3L, 3L);
 
     private final List<AppointmentDto> appointmentDtos = List.of(appointmentDto1, appointmentDto2, appointmentDto3);
 
@@ -83,7 +91,7 @@ class AppointmentControllerTest {
     @Test
     void shouldFetchAppointmentBoards() throws Exception {
         // Given
-        when(service.getAllAppointments()).thenReturn(appointments);
+        when(appointmentService.getAllAppointments()).thenReturn(appointments);
         when(mapper.mapToAppointmentDtoList(appointments)).thenReturn(appointmentDtos);
 
         //When & Then
@@ -109,22 +117,19 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].email", Matchers.is("email2")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].email", Matchers.is("email3")))
                 /*Dentist*/
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentistName", Matchers.is("DentistName1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentistName", Matchers.is("DentistName2")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentistName", Matchers.is("DentistName3")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentistSurname", Matchers.is("DentistSurname1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentistSurname", Matchers.is("DentistSurname2")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentistSurname", Matchers.is("DentistSurname3")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].dentistId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].dentistId", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].dentistId", Matchers.is(3)))
                 /*Service*/
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].description", Matchers.is("Description1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].description", Matchers.is("Description2")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[2].description", Matchers.is("Description3")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].serviceId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].serviceId", Matchers.is(2)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].serviceId", Matchers.is(3)));
     }
 
     @Test
     void shouldFetchAppointment() throws Exception {
         // Given
-        when(service.getAppointment(any(long.class))).thenReturn(appointment1);
+        when(appointmentService.getAppointment(any(long.class))).thenReturn(appointment1);
         when(mapper.mapToAppointmentDto(any(Appointment.class))).thenReturn(appointmentDto1);
 
         //When & Then
@@ -140,17 +145,15 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pesel", Matchers.is("111")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("email1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.date", Matchers.is("2022-02-02T02:02:00")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistName", Matchers.is("DentistName1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistSurname", Matchers.is("DentistSurname1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Description1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.serviceId", Matchers.is(1)));
     }
 
     @Test
     void shouldDeleteAppointment() throws Exception {
         // Given
-        when(service.getAppointment(any(long.class))).thenReturn(appointment1);
-        doNothing().when(service).deleteAppointment(any(Appointment.class));
+        when(appointmentService.getAppointment(any(long.class))).thenReturn(appointment1);
+        doNothing().when(appointmentService).deleteAppointment(any(Appointment.class));
 
         //When & Then
         mockMvc
@@ -163,8 +166,8 @@ class AppointmentControllerTest {
     void shouldCreateAppointment() throws Exception {
         // Given
         when(mapper.mapToAppointment(any(AppointmentDto.class))).thenReturn(appointment1);
-        when(service.saveAppointment(any(Appointment.class))).thenReturn(appointment1);
-        doNothing().when(proxy).sendAnEmail(any(AppointmentDto.class));
+        when(appointmentService.saveAppointment(any(Appointment.class))).thenReturn(appointment1);
+        doNothing().when(proxy).sendAnEmail(any(Appointment.class));
 
 
 
@@ -188,8 +191,10 @@ class AppointmentControllerTest {
     @Test
     void shouldUpdateAppointment() throws Exception {
         // Given
-        when(service.getAppointment(any(long.class))).thenReturn(appointment1);
-        when(service.saveAppointment(any(Appointment.class))).thenReturn(appointment1);
+        when(appointmentService.getAppointment(any(long.class))).thenReturn(appointment1);
+        when(appointmentService.saveAppointment(any(Appointment.class))).thenReturn(appointment1);
+        when(dentistService.getDentist(any(long.class))).thenReturn(dentist1);
+        when(servicesService.getService(any(long.class))).thenReturn(service1);
 
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
@@ -212,9 +217,7 @@ class AppointmentControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.pesel", Matchers.is("111")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.is("email1")))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.date", Matchers.is("2022-02-02T02:02:00")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistName", Matchers.is("DentistName1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistSurname", Matchers.is("DentistSurname1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description", Matchers.is("Description1")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.cost", Matchers.is(111.1)));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.dentistId", Matchers.is(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.serviceId", Matchers.is(1)));
     }
 }

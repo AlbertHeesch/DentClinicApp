@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DentistService {
     @Autowired
-    private final DentistDao dentistDao;
+    private DentistDao dentistDao;
 
     public List<Dentist> getAllDentists()
     {
@@ -23,11 +23,6 @@ public class DentistService {
     public Dentist getDentist(final Long id) throws ElementNotFoundException
     {
         return dentistDao.findById(id).orElseThrow(ElementNotFoundException::new);
-    }
-
-    public Dentist getDentistByNameAndSurname(final String name, final String surname) throws ElementNotFoundException
-    {
-        return dentistDao.findDentistByNameAndSurname(name, surname).orElseThrow(ElementNotFoundException::new);
     }
 
     public Dentist saveDentist(final Dentist dentist)

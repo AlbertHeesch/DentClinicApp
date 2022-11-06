@@ -1,7 +1,11 @@
 package com.dent.dentclinicapp.service;
 
 import com.dent.dentclinicapp.config.CompanyConfig;
+import com.dent.dentclinicapp.controller.ElementNotFoundException;
+import com.dent.dentclinicapp.domain.Appointment;
 import com.dent.dentclinicapp.domain.AppointmentDto;
+import com.dent.dentclinicapp.mapper.AppointmentMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class MailCreatorService
 {
     @Autowired
@@ -21,14 +26,16 @@ public class MailCreatorService
     @Autowired
     private CompanyConfig config;
 
-    public String buildAppointmentEmail(AppointmentDto appointmentDto) {
+    private final AppointmentMapper mapper;
+
+    public String buildAppointmentEmail(Appointment appointment) {
         List<String> appointmentDetails = new ArrayList<>();
-        appointmentDetails.add(appointmentDto.getDate().toString().replace("T", " "));
-        appointmentDetails.add(appointmentDto.getDescription());
-        appointmentDetails.add("Your specialist: " + appointmentDto.getDentistName() + " " + appointmentDto.getDentistSurname());
+        appointmentDetails.add(appointment.getDate().toString().replace("T", " "));
+        appointmentDetails.add(appointment.getService().getDescription());
+        appointmentDetails.add("Your specialist: " + appointment.getDentist().getName() + " " + appointment.getDentist().getSurname());
 
         Context context = new Context();
-        context.setVariable("patient_name", appointmentDto.getName());
+        context.setVariable("patient_name", appointment.getName());
         context.setVariable("company_name", config.getCompanyName());
         context.setVariable("company_address", config.getCompanyAddress());
         context.setVariable("company_email", config.getCompanyEmail());
