@@ -1,5 +1,6 @@
 package com.dent.dentclinicapp.service;
 
+import com.dent.dentclinicapp.domain.Appointment;
 import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.domain.Mail;
 import lombok.RequiredArgsConstructor;
@@ -21,22 +22,22 @@ public class SimpleEmailService
     @Autowired
     private MailCreatorService mailCreatorService;
 
-    public void send(final Mail mail, final AppointmentDto appointmentDto) {
+    public void send(final Mail mail, final Appointment appointment) {
         log.info("Starting email preparation...");
         try {
-            javaMailSender.send(createMimeAppointmentMessage(mail, appointmentDto));
+            javaMailSender.send(createMimeAppointmentMessage(mail, appointment));
             log.info("Email has been sent.");
         } catch (MailException e) {
             log.error("Failed to process email sending: " + e.getMessage(), e);
         }
     }
 
-    private MimeMessagePreparator createMimeAppointmentMessage(final Mail mail, final AppointmentDto appointmentDto) {
+    private MimeMessagePreparator createMimeAppointmentMessage(final Mail mail, final Appointment appointment) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildAppointmentEmail(appointmentDto), true);
+            messageHelper.setText(mailCreatorService.buildAppointmentEmail(appointment), true);
         };
     }
 }

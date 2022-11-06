@@ -21,6 +21,4 @@ public interface DentistDao extends CrudRepository<Dentist, Long>
 
     @Override
     Dentist save(Dentist dentist);
-
-    Optional<Dentist> findDentistByNameAndSurname(String name, String surname);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServicesService {
     @Autowired
-    private final ServicesDao servicesDao;
+    private ServicesDao servicesDao;
 
     public List<Services> getAllServices()
     {
@@ -23,11 +23,6 @@ public class ServicesService {
     public Services getService(final Long id) throws ElementNotFoundException
     {
         return servicesDao.findById(id).orElseThrow(ElementNotFoundException::new);
-    }
-
-    public Services getServiceByDescription(final String description) throws ElementNotFoundException
-    {
-        return servicesDao.findServicesByDescription(description).orElseThrow(ElementNotFoundException::new);
     }
 
     public Services saveService(final Services services)

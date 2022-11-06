@@ -44,14 +44,12 @@ class AppointmentMapperTest {
                 "pesel1",
                 "email1",
                 LocalDateTime.of(2022, 2, 22, 2, 2),
-                "dentistName",
-                "dentistSurname",
-                "description1",
-                75.0
+                1L,
+                3L
                 );
 
-        when(dentistService.getDentistByNameAndSurname(any(String.class), any(String.class))).thenReturn(dentist1);
-        when(servicesService.getServiceByDescription(any(String.class))).thenReturn(services1);
+        when(dentistService.getDentist(any(long.class))).thenReturn(dentist1);
+        when(servicesService.getService(any(long.class))).thenReturn(services1);
 
         //When
         Appointment appointment = mapper.mapToAppointment(appointmentDto);
@@ -101,10 +99,9 @@ class AppointmentMapperTest {
         assertEquals("email1", appointmentDto.getEmail());
         assertEquals(LocalDateTime.of(2022, 2, 22, 2, 2), appointmentDto.getDate());
         /*Dentist*/
-        assertEquals("dentistName", appointmentDto.getDentistName());
-        assertEquals("dentistSurname", appointmentDto.getDentistSurname());
+        assertEquals(1L, appointmentDto.getDentistId());
         /*Service*/
-        assertEquals("description1", appointmentDto.getDescription());
+        assertEquals(3L, appointmentDto.getServiceId());
     }
 
     @Test
@@ -175,9 +172,8 @@ class AppointmentMapperTest {
         assertEquals(LocalDateTime.of(2023, 2, 22, 2, 2), appointmentDtoList.get(1).getDate());
         assertEquals(LocalDateTime.of(2024, 2, 22, 2, 2), appointmentDtoList.get(2).getDate());
         /*Dentists*/
-        assertEquals("dentistName", appointmentDtoList.get(1).getDentistName());
-        assertEquals("dentistSurname", appointmentDtoList.get(2).getDentistSurname());
+        assertEquals(1L, appointmentDtoList.get(2).getDentistId());
         /*Services*/
-        assertEquals("description3", appointmentDtoList.get(1).getDescription());
+        assertEquals(3L, appointmentDtoList.get(1).getServiceId());
     }
 }

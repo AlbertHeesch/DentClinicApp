@@ -17,9 +17,10 @@ public class AppointmentMapper
     private final DentistService dentistService;
     private final ServicesService servicesService;
 
-    public Appointment mapToAppointment(final AppointmentDto appointmentDto) throws ElementNotFoundException {
-        Dentist dentist = dentistService.getDentistByNameAndSurname(appointmentDto.getDentistName(), appointmentDto.getDentistSurname());
-        Services service = servicesService.getServiceByDescription(appointmentDto.getDescription());
+    public Appointment mapToAppointment(final AppointmentDto appointmentDto) throws ElementNotFoundException
+    {
+        Dentist dentist = dentistService.getDentist(appointmentDto.getDentistId());
+        Services service = servicesService.getService(appointmentDto.getServiceId());
 
         return new Appointment(
                 appointmentDto.getId(),
@@ -28,17 +29,8 @@ public class AppointmentMapper
                 appointmentDto.getPesel(),
                 appointmentDto.getEmail(),
                 appointmentDto.getDate(),
-                new Dentist(
-                        dentist.getId(),
-                        dentist.getName(),
-                        dentist.getSurname(),
-                        dentist.getExperience()
-                ),
-                new Services(
-                        service.getId(),
-                        service.getDescription(),
-                        service.getCost()
-                )
+                dentist,
+                service
         );
     }
 
@@ -51,10 +43,8 @@ public class AppointmentMapper
                 appointment.getPesel(),
                 appointment.getEmail(),
                 appointment.getDate(),
-                appointment.getDentist().getName(),
-                appointment.getDentist().getSurname(),
-                appointment.getService().getDescription(),
-                appointment.getService().getCost()
+                appointment.getDentist().getId(),
+                appointment.getService().getId()
         );
     }
 

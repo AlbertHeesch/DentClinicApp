@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +16,8 @@ public class AppointmentService
 {
     @Autowired
     private final AppointmentDao appointmentDao;
+    private final DentistService dentistService;
+    private final ServicesService servicesService;
 
     public List<Appointment> getAllAppointments()
     {
@@ -32,8 +34,13 @@ public class AppointmentService
         return appointmentDao.save(appointment);
     }
 
-    public void deleteAppointment(final Appointment appointment)
-    {
+    public void deleteAppointment(final Appointment appointment) throws ElementNotFoundException {
+        Long dentistId = appointment.getDentist().getId();
+        Long serviceId = appointment.getService().getId();
+        appointment.getDentist().getAppointmentList().removeIf(id -> Objects.equals(id.getId(), appointment.getId()));
+        dentistService.saveDentist(dentistService.getDentist(dentistId));
+        appointment.getService().getAppointmentList().removeIf(id -> Objects.equals(id.getId(), appointment.getId()));
+        servicesService.saveService(servicesService.getService(serviceId));
         appointmentDao.delete(appointment);
     }
 }
