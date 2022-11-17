@@ -1,7 +1,6 @@
 package com.dent.dentclinicapp.service;
 
 import com.dent.dentclinicapp.domain.Appointment;
-import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.domain.Mail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

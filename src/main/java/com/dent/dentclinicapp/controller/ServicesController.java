@@ -39,7 +39,7 @@ public class ServicesController
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createService(@RequestBody ServicesDto servicesDto) throws ElementNotFoundException {
+    public ResponseEntity<Void> createService(@RequestBody ServicesDto servicesDto) {
         Services services = mapper.mapToServices(servicesDto);
         service.saveService(services);
         return ResponseEntity.ok().build();

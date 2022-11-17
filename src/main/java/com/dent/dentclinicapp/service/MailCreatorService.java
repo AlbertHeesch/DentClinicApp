@@ -1,10 +1,7 @@
 package com.dent.dentclinicapp.service;
 
 import com.dent.dentclinicapp.config.CompanyConfig;
-import com.dent.dentclinicapp.controller.ElementNotFoundException;
 import com.dent.dentclinicapp.domain.Appointment;
-import com.dent.dentclinicapp.domain.AppointmentDto;
-import com.dent.dentclinicapp.mapper.AppointmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,8 +22,6 @@ public class MailCreatorService
 
     @Autowired
     private CompanyConfig config;
-
-    private final AppointmentMapper mapper;
 
     public String buildAppointmentEmail(Appointment appointment) {
         List<String> appointmentDetails = new ArrayList<>();
