@@ -6,7 +6,7 @@ Its main functions are:
 - appointments browsing in the dentist panel,
 - managing all resources in the admin panel.
 
-##Microservices & Front End
+## Microservices & Front End
 In order to run my application properly please use these projects:  
 - Configuration server - https://github.com/AlbertHeesch/cloud,
 - Discovery - https://github.com/AlbertHeesch/discovery,
@@ -24,6 +24,8 @@ MySQL
 
 ## How to run
 Set up your MySQL database in `application.properties` file.
+
+Place `application-config` file in your local repository(location of git init).
 
 Build your gradle with `gradlew build` in terminal.
 
