@@ -27,7 +27,7 @@ class DentistMapperTest {
         Dentist dentist1 = mapper.mapToDentist(dentistDto1);
 
         //Then
-        assertEquals(1L,dentist1.getId());
+        assertEquals(1L, dentist1.getId());
         assertEquals("dentist1Name", dentist1.getName());
         assertEquals("dentist1Surname", dentist1.getSurname());
         assertEquals(LocalDate.of(2022, 1, 1), dentist1.getExperience());
@@ -42,7 +42,7 @@ class DentistMapperTest {
         DentistDto dentistDto1 = mapper.mapToDentistDto(dentist1);
 
         //Then
-        assertEquals(1L,dentistDto1.getId());
+        assertEquals(1L, dentistDto1.getId());
         assertEquals("dentist1Name", dentistDto1.getName());
         assertEquals("dentist1Surname", dentistDto1.getSurname());
         assertEquals(LocalDate.of(2022, 1, 1), dentistDto1.getExperience());
