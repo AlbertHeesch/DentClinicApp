@@ -12,7 +12,8 @@ In order to run my application properly please use these projects:
 - Discovery - https://github.com/AlbertHeesch/discovery,
 - Gateway - https://github.com/AlbertHeesch/gateway,
 - Rates Back End - https://github.com/AlbertHeesch/DentClinicAppRates,
-- Front End - https://github.com/AlbertHeesch/DentClinicAppView.
+- Front End - https://github.com/AlbertHeesch/DentClinicAppView,
+- Integration Test Suite - https://github.com/AlbertHeesch/DentClinicAppTesting.
 
 ## Requirements:  
 
