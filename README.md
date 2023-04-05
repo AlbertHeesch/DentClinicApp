@@ -26,8 +26,6 @@ MySQL
 ## How to run
 Set up your MySQL database in `application.properties` file.
 
-Place `application-config` file in your local repository(location of git init).
-
 Build your gradle with `gradlew build` in terminal.
 
 Run the projects in order:  
