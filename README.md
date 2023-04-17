@@ -24,7 +24,7 @@ Gradle
 MySQL
 
 ## How to run
-Set up your MySQL database in `application.properties` file.
+Set up your MaitTrap credentials and MySQL database in `application.properties` file.
 
 Build your gradle with `gradlew build` in terminal.
 
