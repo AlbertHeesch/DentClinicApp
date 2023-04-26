@@ -5,10 +5,10 @@ import com.dent.dentclinicapp.domain.AppointmentDto;
 import com.dent.dentclinicapp.domain.Dentist;
 import com.dent.dentclinicapp.domain.Services;
 import com.dent.dentclinicapp.mapper.AppointmentMapper;
-import com.dent.dentclinicapp.proxy.ProxyInterface;
 import com.dent.dentclinicapp.service.AppointmentService;
 import com.dent.dentclinicapp.service.DentistService;
 import com.dent.dentclinicapp.service.ServicesService;
+import com.dent.dentclinicapp.service.SimpleEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,7 @@ public class AppointmentController
     private final DentistService dentistService;
     private final ServicesService servicesService;
     private final AppointmentMapper mapper;
-    private final ProxyInterface proxy;
+    private final SimpleEmailService emailService;
 
     @GetMapping
     public ResponseEntity<List<AppointmentDto>> getAppointments()
@@ -50,7 +50,7 @@ public class AppointmentController
     public ResponseEntity<Void> createAppointment(@RequestBody AppointmentDto appointmentDto) throws ElementNotFoundException {
         Appointment appointment = mapper.mapToAppointment(appointmentDto);
         appointmentService.saveAppointment(appointment);
-        proxy.sendAnEmail(appointment);
+        emailService.send(appointment);
         return ResponseEntity.ok().build();
     }
 

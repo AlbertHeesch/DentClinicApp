@@ -21,10 +21,10 @@ public class SimpleEmailService
     @Autowired
     private MailCreatorService mailCreatorService;
 
-    public void send(final Mail mail, final Appointment appointment) {
+    public void send(final Appointment appointment) {
         log.info("Starting email preparation...");
         try {
-            javaMailSender.send(createMimeAppointmentMessage(mail, appointment));
+            javaMailSender.send(createMimeAppointmentMessage(new Mail(appointment.getEmail(), "Your dentist appointment."), appointment));
             log.info("Email has been sent.");
         } catch (MailException e) {
             log.error("Failed to process email sending: " + e.getMessage(), e);
