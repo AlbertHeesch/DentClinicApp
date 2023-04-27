@@ -12,6 +12,6 @@ import java.util.List;
 public class ClinicDto {
     private Long id;
     private  String name;
-    private AddressDto address;
-    private List<DentistDto> dentists;
+    private Address address;
+    private List<Dentist> dentists;
 }
