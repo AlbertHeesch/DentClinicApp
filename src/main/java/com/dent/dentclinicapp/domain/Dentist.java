@@ -40,6 +40,10 @@ public class Dentist
     )
     private List<Appointment> appointmentList = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "CLINIC_ID")
+    private Clinic clinic;
+
     public Dentist(Long id, String name, String surname, LocalDate experience) {
         this.id = id;
         this.name = name;
